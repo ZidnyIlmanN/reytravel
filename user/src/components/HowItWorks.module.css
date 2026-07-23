@@ -1,0 +1,321 @@
+/* ── HowItWorks — Zigzag Timeline Layout ── */
+
+/* Outer wrapper with the vertical center line */
+.timeline {
+  position: relative;
+  margin-top: var(--sp-10);
+  padding: var(--sp-4) 0 var(--sp-4);
+}
+
+/* The vertical center spine */
+.centerLine {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  transform: translateX(-50%);
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    var(--clr-primary) 8%,
+    var(--clr-primary) 92%,
+    transparent 100%
+  );
+  opacity: 0.30;
+}
+
+/* ── Each Row ── */
+.timelineRow {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 120px;
+  margin-bottom: var(--sp-10);
+  position: relative;
+}
+
+.timelineRow:last-child {
+  margin-bottom: 0;
+}
+
+/* Card side — takes up exactly half minus the dot area */
+.cardWrap {
+  width: calc(50% - 36px);
+  flex-shrink: 0;
+}
+
+/* Center dot column */
+.midPoint {
+  width: 72px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 5;
+}
+
+/* Empty spacer on the opposite side */
+.emptyWrap {
+  flex: 1;
+}
+
+/* ── LEFT ROW: card on left ── */
+.rowLeft {
+  flex-direction: row;
+}
+
+.rowLeft .cardWrap {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Horizontal connector line: card right edge → dot */
+.rowLeft .cardWrap::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  /* from right edge of cardWrap to left of dot */
+  left: calc(50% - 36px - 1px);
+  width: 36px;
+  height: 2px;
+  background: linear-gradient(to right, transparent, var(--clr-primary));
+  opacity: 0.40;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+/* ── RIGHT ROW: card on right ── */
+.rowRight {
+  flex-direction: row-reverse;
+}
+
+.rowRight .cardWrap {
+  display: flex;
+  justify-content: flex-start;
+}
+
+/* Horizontal connector line: dot → card left edge */
+.rowRight .cardWrap::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: calc(50% - 36px - 1px);
+  width: 36px;
+  height: 2px;
+  background: linear-gradient(to left, transparent, var(--clr-primary));
+  opacity: 0.40;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+/* ── Center Dot ── */
+.timelineDot {
+  width: 18px;
+  height: 18px;
+  border-radius: var(--r-full);
+  background: var(--clr-primary);
+  border: 3px solid var(--clr-bg-alt);
+  box-shadow: 0 0 0 5px rgba(0, 100, 210, 0.18);
+  transition: box-shadow var(--dur-base) var(--ease);
+}
+
+.timelineRow:hover .timelineDot {
+  box-shadow: 0 0 0 8px rgba(0, 100, 210, 0.20);
+}
+
+/* ── Step Card ── */
+.stepCard {
+  background: var(--clr-card);
+  border: 1.5px solid var(--clr-border);
+  border-radius: var(--r-xl);
+  padding: var(--sp-6);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  transition: all var(--dur-base) var(--ease);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  max-width: 420px;
+  width: 100%;
+}
+
+.stepCard:hover {
+  transform: translateY(-4px);
+  border-color: var(--clr-primary);
+  box-shadow: var(--shadow-md);
+}
+
+/* Left-aligned cards flush to the right of their wrap */
+.rowLeft .stepCard {
+  border-right: 3px solid transparent;
+}
+.rowLeft .stepCard:hover {
+  border-right-color: var(--clr-primary);
+}
+
+/* Right-aligned cards flush to the left of their wrap */
+.rowRight .stepCard {
+  border-left: 3px solid transparent;
+}
+.rowRight .stepCard:hover {
+  border-left-color: var(--clr-primary);
+}
+
+/* ── Card Glow ── */
+.cardGlow {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(0,100,210,0.05) 0%, transparent 65%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--dur-base) var(--ease);
+}
+
+.stepCard:hover .cardGlow {
+  opacity: 1;
+}
+
+/* ── Card Header (icon + number) ── */
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.iconCircle {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--r-lg);
+  background: var(--clr-primary-ghost);
+  color: var(--clr-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(0,100,210,0.18);
+  flex-shrink: 0;
+}
+
+.number {
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: var(--fw-black);
+  color: rgba(0,100,210,0.35);
+  line-height: 1;
+  font-family: var(--font-sans);
+  letter-spacing: -1px;
+}
+
+.stepTitle {
+  font-size: var(--fs-md);
+  font-weight: var(--fw-extrabold);
+  color: var(--clr-text);
+}
+
+.stepDesc {
+  font-size: var(--fs-sm);
+  color: var(--clr-text-secondary);
+  line-height: var(--lh-relaxed);
+}
+
+/* ── Mobile (<768px): left-side stacked timeline ── */
+@media (max-width: 767px) {
+  /* Hide center zigzag spine; we'll draw a left spine via ::before */
+  .centerLine { display: none; }
+
+  .timelineRow,
+  .rowLeft,
+  .rowRight {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: var(--sp-8);
+    padding-left: 52px;
+    position: relative;
+    min-height: unset;
+  }
+
+  .timelineRow:last-child { margin-bottom: 0; }
+
+  /* Card takes full width in stacked mode */
+  .cardWrap {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start !important;
+  }
+
+  /* Constrain card width on tablet so it doesn't stretch excessively */
+  .stepCard {
+    max-width: 580px;
+  }
+
+  /* Hide horizontal connector lines in stacked mode */
+  .rowLeft .cardWrap::after,
+  .rowRight .cardWrap::after {
+    display: none;
+  }
+
+  /* Dot: absolute on the left spine */
+  .midPoint {
+    position: absolute;
+    left: 0;
+    top: 28px;
+    transform: none;
+    width: 36px;
+    height: 36px;
+    justify-content: flex-start;
+    padding-left: 9px;
+  }
+
+  .timelineDot {
+    width: 16px;
+    height: 16px;
+  }
+
+  .emptyWrap { display: none; }
+
+  /* Left vertical spine */
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 17px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      var(--clr-primary) 6%,
+      var(--clr-primary) 94%,
+      transparent 100%
+    );
+    opacity: 0.28;
+  }
+}
+
+/* ── Mobile only (<640px) ── */
+@media (max-width: 639px) {
+  .timelineRow,
+  .rowLeft,
+  .rowRight {
+    margin-bottom: var(--sp-6);
+    padding-left: 44px;
+  }
+
+  .midPoint {
+    top: 24px;
+    padding-left: 6px;
+  }
+
+  .timeline::before {
+    left: 14px;
+  }
+
+  .number {
+    font-size: clamp(22px, 7vw, 32px);
+  }
+}
+

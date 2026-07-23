@@ -1,0 +1,29 @@
+# Monorepo — ignore node_modules and build artifacts for both projects
+
+# Dependencies
+user/node_modules/
+admin/node_modules/
+
+# Build output
+user/.next/
+admin/.next/
+
+# Environment variables (never commit secrets!)
+user/.env
+user/.env.local
+user/.env.*.local
+admin/.env
+admin/.env.local
+admin/.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/

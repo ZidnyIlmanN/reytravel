@@ -1,0 +1,418 @@
+/* ── FAB Container ── */
+.container {
+  position: fixed;
+  bottom: calc(24px + env(safe-area-inset-bottom));
+  right: calc(24px + env(safe-area-inset-right));
+  z-index: 998;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.floatingButton {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-full);
+  background: var(--clr-primary);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.floatingButton:hover {
+  background: var(--clr-primary-dark);
+  transform: scale(1.05);
+}
+
+.floatingButton.active {
+  background: #374151; /* Dark grey for close state */
+}
+
+.floatingIcon {
+  font-size: 26px;
+}
+
+.pulseRing {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-full);
+  border: 2px solid var(--clr-primary);
+  animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+}
+
+/* ── Menu Options ── */
+.menuOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 12px;
+  align-items: flex-end;
+  animation: fadeInUp 0.25s ease;
+}
+
+.menuBtn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border-radius: var(--r-full);
+  border: 1px solid var(--clr-border);
+  background: var(--clr-card);
+  box-shadow: var(--shadow-md);
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.waBtn {
+  background: #25d366;
+  color: #fff;
+  border-color: #22c55e;
+}
+.waBtn:hover {
+  background: #15803d;
+  transform: translateY(-2px);
+}
+
+.aiBtn {
+  background: var(--clr-primary);
+  color: #fff;
+  border-color: var(--clr-primary-light);
+}
+.aiBtn:hover {
+  background: var(--clr-primary-dark);
+  transform: translateY(-2px);
+}
+
+.menuIcon {
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menuText {
+  font-size: 13px;
+  font-weight: var(--fw-semibold);
+}
+
+/* Chat Window */
+.chatWindow {
+  width: 360px;
+  height: 480px;
+  background: var(--clr-card);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: fadeInUp 0.3s ease;
+}
+
+.header {
+  padding: 16px;
+  background: var(--clr-bg-alt);
+  border-bottom: 1px solid var(--clr-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.headerIcon {
+  font-size: 24px;
+}
+
+.headerTitle {
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.statusRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.statusDot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--clr-success);
+}
+
+.statusText {
+  font-size: 11px;
+  color: var(--clr-text-secondary);
+}
+
+.closeBtn {
+  font-size: 24px;
+  color: var(--clr-text-secondary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.messagesList {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: var(--clr-bg);
+}
+
+.messageRow {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  max-width: 85%;
+}
+
+.messageAssistant {
+  align-self: flex-start;
+}
+
+.messageUser {
+  align-self: flex-end;
+}
+
+.msgAvatar {
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-full);
+  background: var(--clr-primary-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.msgAvatarUser {
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-full);
+  background: var(--clr-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.bubble {
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+.messageAssistant .bubble {
+  background: var(--clr-card);
+  border: 1px solid var(--clr-border);
+  border-bottom-left-radius: 2px;
+}
+
+.messageUser .bubble {
+  background: var(--clr-primary);
+  color: #fff;
+  border-bottom-right-radius: 2px;
+}
+
+.msgText {
+  white-space: pre-wrap;
+}
+
+.loadingDots {
+  font-size: 20px;
+  font-weight: 800;
+  display: flex;
+  gap: 2px;
+  line-height: 0.5;
+  color: var(--clr-primary);
+}
+
+/* Input Container */
+.inputContainer {
+  padding: 12px;
+  border-top: 1px solid var(--clr-border);
+  background: var(--clr-card);
+  display: flex;
+  gap: 8px;
+}
+
+.input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  outline: none;
+  font-family: inherit;
+}
+
+.input:focus {
+  border-color: var(--clr-primary);
+}
+
+.sendBtn {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-sm);
+  background: var(--clr-primary);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: background 0.15s;
+}
+
+.sendBtn:hover {
+  background: var(--clr-primary-dark);
+}
+
+.sendBtn:disabled {
+  background: var(--clr-border);
+  color: var(--clr-text-muted);
+  cursor: not-allowed;
+}
+
+/* ── Responsive ── */
+
+/* Tablet (640–1023px) */
+@media (max-width: 1023px) {
+  .container {
+    bottom: calc(20px + env(safe-area-inset-bottom));
+    right: calc(20px + env(safe-area-inset-right));
+  }
+  .floatingButton {
+    width: 52px;
+    height: 52px;
+  }
+  .chatWindow {
+    width: 340px;
+    height: 440px;
+  }
+}
+
+/* Mobile (<640px) */
+@media (max-width: 639px) {
+  .container {
+    bottom: calc(32px + env(safe-area-inset-bottom));
+    right: calc(16px + env(safe-area-inset-right));
+  }
+  .floatingButton {
+    width: 48px;
+    height: 48px;
+  }
+  .chatWindow {
+    width: calc(100vw - 32px);
+    height: 400px;
+  }
+  /* menu buttons smaller on mobile */
+  .menuBtn {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+  .menuText {
+    font-size: 12px;
+  }
+}
+
+/* ── Tooltip Nudge ── */
+.tooltipNudge {
+  position: absolute;
+  right: 68px;
+  bottom: 8px;
+  background: #0f172a;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 8px 12px;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  font-size: 11.5px;
+  font-weight: 600;
+  animation: tooltipFadeIn 0.3s ease both;
+  z-index: 1000;
+  cursor: pointer;
+}
+
+.tooltipNudge::after {
+  content: '';
+  position: absolute;
+  right: -5px;
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+  width: 10px;
+  height: 10px;
+  background: #0f172a;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.tooltipText {
+  color: #f1f5f9;
+}
+
+.tooltipCloseBtn {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.tooltipCloseBtn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+@keyframes tooltipFadeIn {
+  from { opacity: 0; transform: translateX(10px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@media (max-width: 480px) {
+  .tooltipNudge {
+    right: 0;
+    bottom: 68px;
+    white-space: normal;
+    max-width: calc(100vw - 48px);
+    width: 250px;
+  }
+  .tooltipNudge::after {
+    right: 20px;
+    top: auto;
+    bottom: -5px;
+    transform: rotate(135deg);
+  }
+}
+

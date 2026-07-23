@@ -1,0 +1,341 @@
+/* BookingForm.module.css */
+
+.layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: var(--sp-8);
+  align-items: start;
+}
+
+/* Prevent grid children from overflowing their track */
+.layout > * {
+  min-width: 0;
+}
+
+/* ── Info Panel ── */
+.infoPanel {
+  background: linear-gradient(160deg, var(--clr-primary-dark) 0%, var(--clr-bg-dark) 100%);
+  border-radius: var(--r-xl);
+  padding: var(--sp-8);
+  color: #fff;
+  position: sticky;
+  top: calc(var(--header-h) + var(--sp-6));
+}
+
+.promoTag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-extrabold);
+  color: #fde68a;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  margin-bottom: var(--sp-3);
+}
+
+.promoTitle {
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-black);
+  line-height: var(--lh-snug);
+  margin-bottom: var(--sp-3);
+}
+
+.promoDesc {
+  font-size: var(--fs-sm);
+  color: rgba(255,255,255,.75);
+  line-height: var(--lh-relaxed);
+  margin-bottom: var(--sp-4);
+}
+
+/* ── FOMO Countdown ── */
+.countdown {
+  background: rgba(0,0,0,.25);
+  border: 1px solid rgba(253,230,138,.25);
+  border-radius: var(--r-lg);
+  padding: var(--sp-4) var(--sp-5);
+  margin-bottom: var(--sp-5);
+}
+
+.countdownLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  color: #fde68a;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: var(--sp-3);
+}
+
+.countdownBlocks {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-3);
+}
+
+.countdownUnit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  background: rgba(255,255,255,.1);
+  border-radius: var(--r-md);
+  padding: var(--sp-2) var(--sp-4);
+  min-width: 58px;
+}
+
+.countdownNum {
+  font-size: clamp(22px, 2.8vw, 30px);
+  font-weight: var(--fw-black);
+  color: #fff;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 2px;
+}
+
+.countdownSub {
+  font-size: 9px;
+  font-weight: var(--fw-extrabold);
+  color: rgba(255,255,255,.5);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.countdownColon {
+  font-size: 22px;
+  font-weight: var(--fw-black);
+  color: rgba(253,230,138,.7);
+  line-height: 1;
+  margin-bottom: 12px;
+}
+
+.countdownNote {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+  font-size: var(--fs-xs);
+  color: rgba(255,255,255,.6);
+  line-height: 1.5;
+}
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  border-top: 1px solid rgba(255,255,255,.12);
+  padding-top: var(--sp-5);
+}
+
+.step {
+  display: flex;
+  gap: var(--sp-3);
+  align-items: flex-start;
+}
+
+.stepNum {
+  width: 30px;
+  height: 30px;
+  border-radius: var(--r-full);
+  background: rgba(255,255,255,.15);
+  border: 1.5px solid rgba(255,255,255,.25);
+  color: #fff;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.step strong {
+  display: block;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  margin-bottom: var(--sp-1);
+}
+
+.step p {
+  font-size: var(--fs-xs);
+  color: rgba(255,255,255,.65);
+  line-height: var(--lh-relaxed);
+}
+
+/* ── Form Panel ── */
+.formPanel {
+  background: var(--clr-card);
+  border: 1.5px solid var(--clr-border);
+  border-radius: var(--r-xl);
+  padding: var(--sp-8);
+  box-shadow: var(--shadow-sm);
+}
+
+.formTitle {
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-extrabold);
+  color: var(--clr-text);
+  margin-bottom: var(--sp-6);
+}
+
+.priceLockBanner {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  background: #fffbeb;
+  border: 1px solid #fef3c7;
+  color: #b45309;
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--r-md);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  margin-bottom: var(--sp-2);
+  line-height: 1.4;
+}
+
+.priceLockBanner svg {
+  color: #b45309;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+.row2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-4);
+}
+
+.errorBox {
+  background: var(--clr-error-ghost);
+  border: 1px solid rgba(239,68,68,.3);
+  color: var(--clr-error);
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--r-md);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+}
+
+.submitBtn {
+  width: 100%;
+  margin-top: var(--sp-2);
+  padding-block: var(--sp-4) !important;
+  font-size: var(--fs-md) !important;
+}
+
+/* ── Success State ── */
+.successBox {
+  text-align: center;
+  padding: var(--sp-16) var(--sp-8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-4);
+}
+
+.successIcon { font-size: 56px; }
+
+.successBox h3 {
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-extrabold);
+  color: var(--clr-text);
+}
+
+.successBox p {
+  font-size: var(--fs-sm);
+  color: var(--clr-text-secondary);
+  max-width: 380px;
+  line-height: var(--lh-relaxed);
+}
+
+.resetBtn { margin-top: var(--sp-2); }
+
+/* ── Responsive ── */
+@media (max-width: 1023px) {
+  .layout { grid-template-columns: 1fr; }
+  .infoPanel { position: static; }
+  .row2 { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 639px) {
+  .formPanel, .infoPanel { padding: var(--sp-6) var(--sp-5); }
+  .row2 { grid-template-columns: 1fr; }
+}
+
+/* ── Trust badges near submit ── */
+.trustBadges {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: var(--sp-3) 0 var(--sp-2);
+}
+
+.trustBadgeItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: var(--fw-semibold);
+  color: var(--clr-text-muted);
+}
+
+/* Loading spinner for submit button */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.reversalText {
+  margin-top: 10px;
+  font-size: 11px;
+  color: var(--clr-text-muted);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.liveCounterContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: -12px;
+  margin-bottom: 24px;
+}
+
+.liveCounter {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  color: #059669;
+  font-size: 12px;
+  font-weight: var(--fw-bold);
+  padding: 6px 14px;
+  border-radius: var(--r-full);
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.05);
+}
+
+.liveDot {
+  width: 7px;
+  height: 7px;
+  background-color: #10b981;
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+  animation: dotPulse 2s infinite ease-in-out;
+}
+
+@keyframes dotPulse {
+  0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); }
+  70% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+

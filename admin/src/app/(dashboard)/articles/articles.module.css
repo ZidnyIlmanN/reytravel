@@ -1,0 +1,92 @@
+.pageHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.pageTitle { font-size: 22px; font-weight: 700; color: var(--text-primary); letter-spacing: -0.02em; }
+.pageDesc  { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
+
+.table { width: 100%; border-collapse: collapse; }
+.table th {
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-elevated);
+}
+.table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--text-secondary);
+  vertical-align: middle;
+}
+.table tr:last-child td { border-bottom: none; }
+.table tr:hover td { background: var(--bg-hover); }
+
+.tdTitle { color: var(--text-primary) !important; font-weight: 500; max-width: 300px; }
+.tdMeta  { font-size: 12px !important; white-space: nowrap; }
+
+.slug {
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  background: var(--bg-elevated);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: var(--text-secondary);
+}
+
+.actions { display: flex; align-items: center; gap: 6px; }
+
+.empty {
+  padding: 60px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.searchForm {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 12px;
+  width: 260px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.searchInput {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 13px;
+  color: var(--text-primary);
+  width: 100%;
+}
+
+.searchInput::placeholder {
+  color: var(--text-muted);
+}
+
+.clearBtn {
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0 4px;
+}
+
+.clearBtn:hover {
+  color: var(--text-primary);
+}
+

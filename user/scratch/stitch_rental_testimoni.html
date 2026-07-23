@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Reytrans Travel &amp; Charter - Perjalanan Aman &amp; Nyaman</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-low": "#f3f3fe",
+                        "secondary-container": "#4069f2",
+                        "on-surface-variant": "#434655",
+                        "error-container": "#ffdad6",
+                        "outline": "#737686",
+                        "on-error": "#ffffff",
+                        "outline-variant": "#c3c6d7",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "secondary-fixed": "#dce1ff",
+                        "surface-container-highest": "#e1e2ed",
+                        "surface-variant": "#e1e2ed",
+                        "on-secondary-container": "#fffbff",
+                        "on-secondary-fixed-variant": "#0039b5",
+                        "error": "#ba1a1a",
+                        "on-tertiary-container": "#ffede6",
+                        "surface-bright": "#faf8ff",
+                        "surface-container-high": "#e7e7f3",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "tertiary": "#943700",
+                        "on-primary-container": "#eeefff",
+                        "tertiary-container": "#bc4800",
+                        "on-background": "#191b23",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-tint": "#0053db",
+                        "surface-container": "#ededf9",
+                        "surface-dim": "#d9d9e5",
+                        "primary-fixed": "#dbe1ff",
+                        "inverse-primary": "#b4c5ff",
+                        "inverse-surface": "#2e3039",
+                        "on-primary-fixed": "#00174b",
+                        "inverse-on-surface": "#f0f0fb",
+                        "on-secondary-fixed": "#001551",
+                        "secondary-fixed-dim": "#b7c4ff",
+                        "surface": "#faf8ff",
+                        "background": "#faf8ff",
+                        "tertiary-fixed": "#ffdbcd",
+                        "on-secondary": "#ffffff",
+                        "on-surface": "#191b23",
+                        "on-tertiary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "on-primary": "#ffffff",
+                        "primary-container": "#2563eb",
+                        "tertiary-fixed-dim": "#ffb596",
+                        "primary": "#004ac6",
+                        "on-tertiary-fixed-variant": "#7d2d00",
+                        "secondary": "#1d4ed8",
+                        "on-tertiary-fixed": "#360f00"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "3xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "20px",
+                        "stack-sm": "8px",
+                        "stack-md": "16px",
+                        "gutter": "24px",
+                        "margin-desktop": "64px",
+                        "section-gap": "120px",
+                        "container-max": "1280px",
+                        "stack-lg": "24px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "caption": ["Plus Jakarta Sans"],
+                        "h3": ["Plus Jakarta Sans"],
+                        "display-lg-mobile": ["Plus Jakarta Sans"],
+                        "h2": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "500"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "500"}],
+                        "caption": ["12px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                        "h3": ["28px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                        "display-lg-mobile": ["40px", {"lineHeight": "1.2", "fontWeight": "800"}],
+                        "h2": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "display-lg": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "label-sm": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .glass-nav {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .lift-on-hover {
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+        }
+        .lift-on-hover:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 40px rgba(15, 23, 42, 0.08);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md selection:bg-primary/20">
+<!-- Navigation -->
+<header class="docked full-width top-0 sticky h-[88px] z-50 glass-nav bg-surface/70 border-b border-outline-variant/30 flex items-center">
+<nav class="flex justify-between items-center px-margin-desktop w-full max-w-container-max mx-auto">
+<div class="flex items-center gap-2">
+<span class="font-h3 text-h3 font-extrabold text-on-surface">Reytrans</span>
+</div>
+<div class="hidden lg:flex items-center gap-8">
+<a class="font-label-sm text-label-sm text-primary font-bold border-b-2 border-primary pb-1" href="#">Beranda</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Layanan</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Rute &amp; Jadwal</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Armada</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Tentang Kami</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Kontak</a>
+</div>
+<button class="bg-primary text-on-primary px-6 py-3 rounded-full font-label-sm text-label-sm hover:scale-[1.02] transition-transform flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">chat</span>
+                Booking WhatsApp
+            </button>
+</nav>
+</header>
+<!-- Hero Section -->
+<section class="relative pt-12 pb-section-gap overflow-hidden">
+<div class="max-w-container-max mx-auto px-margin-desktop grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+<div class="space-y-8 z-10">
+<div class="flex gap-3">
+<span class="bg-primary-container/10 text-primary px-3 py-1 rounded-full text-caption font-bold">PROMO HARI INI</span>
+<span class="bg-secondary-container text-white px-3 py-1 rounded-full text-caption font-bold">DISKON 20%</span>
+</div>
+<h1 class="font-display-lg text-display-lg-mobile lg:text-display-lg leading-tight">
+                    Perjalanan Aman, Nyaman &amp; <span class="text-primary">Berkesan.</span>
+</h1>
+<p class="text-on-surface-variant font-body-lg max-w-lg">
+                    Layanan travel reguler &amp; charter privat Jabodetabek — Ciayumajakuning PP &amp; Brebes dengan layanan door-to-door langsung dari rumah Anda.
+                </p>
+<div class="flex flex-wrap gap-4">
+<div class="bg-white p-4 rounded-2xl shadow-sm border border-outline-variant/30 flex items-center gap-4">
+<div class="bg-yellow-400 p-2 rounded-lg">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<div>
+<div class="font-bold">4.9 <span class="text-yellow-400">★★★★★</span></div>
+<div class="text-caption text-outline">500+ Review</div>
+</div>
+</div>
+<div class="bg-white p-4 rounded-2xl shadow-sm border border-outline-variant/30 flex items-center gap-4">
+<div class="bg-green-500 p-2 rounded-lg">
+<span class="material-symbols-outlined text-white">check_circle</span>
+</div>
+<div>
+<div class="font-bold text-green-600">Armada tersedia hari ini</div>
+<div class="text-caption text-outline">Konfirmasi Instan</div>
+</div>
+</div>
+</div>
+<div class="flex flex-wrap gap-2">
+<span class="bg-surface-container-low px-4 py-2 rounded-full text-caption text-on-surface-variant border border-outline-variant/20 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">person</span> Include Sopir
+                    </span>
+<span class="bg-surface-container-low px-4 py-2 rounded-full text-caption text-on-surface-variant border border-outline-variant/20 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">local_gas_station</span> BBM Include
+                    </span>
+<span class="bg-surface-container-low px-4 py-2 rounded-full text-caption text-on-surface-variant border border-outline-variant/20 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">toll</span> Tol Include
+                    </span>
+<span class="bg-surface-container-low px-4 py-2 rounded-full text-caption text-on-surface-variant border border-outline-variant/20 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">home</span> Door to Door
+                    </span>
+<span class="bg-surface-container-low px-4 py-2 rounded-full text-caption text-on-surface-variant border border-outline-variant/20 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">ac_unit</span> AC
+                    </span>
+</div>
+<div class="flex gap-4">
+<button class="bg-primary text-white px-8 py-4 rounded-2xl font-bold flex items-center gap-2 hover:scale-105 transition-transform">
+                        Booking Sekarang <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<button class="bg-white border border-outline-variant text-primary px-8 py-4 rounded-2xl font-bold hover:bg-surface-container transition-colors">
+                        Lihat Armada
+                    </button>
+</div>
+</div>
+<div class="relative lg:h-[600px] flex items-center justify-center">
+<div class="absolute inset-0 bg-primary/5 rounded-full blur-3xl transform scale-150 -z-10"></div>
+<img class="w-full object-contain transform lg:scale-125 z-10 drop-shadow-2xl" data-alt="A high-end, clean white Toyota Hiace van parked on a pristine, bright studio surface with soft cinematic lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUdQQocc76uTSR5H7OgLlW209uMCuxH7uOQnOO2HtzZb63xXSLIh0NHOvcq9hzxCb4NguEa9NDfGXTwOK8CH8srNdqLmePRCCS6l9oMFBrnQBMYJf98JzsBoeVw5GgYQKBIJumRSQJFi4ngU0-EmwrGguTXUyjJpqSKJ8HjBIW-X2vRa9NHIPVG1D-357GLZm0eppi7J_SZi6UnFbdXs0H54h_BSHaL6NgzoEDsFQwV-9jNWfNzC45"/>
+</div>
+</div>
+<!-- Trust Indicators -->
+<div class="mt-16 bg-white py-8 border-y border-outline-variant/20 overflow-hidden">
+<div class="max-w-container-max mx-auto px-margin-desktop flex flex-wrap justify-between items-center gap-8 opacity-60">
+<div class="flex items-center gap-2 font-bold"><span class="material-symbols-outlined text-primary">verified</span> 5 Tahun Beroperasi</div>
+<div class="flex items-center gap-2 font-bold"><span class="material-symbols-outlined text-primary">google</span> Google Verified</div>
+<div class="flex items-center gap-2 font-bold"><span class="material-symbols-outlined text-primary">groups</span> 10.000+ Pelanggan</div>
+<div class="flex items-center gap-2 font-bold"><span class="material-symbols-outlined text-primary">star</span> Rating 4.9</div>
+<div class="flex items-center gap-2 font-bold"><span class="material-symbols-outlined text-primary">commute</span> Armada &lt; 3 Tahun</div>
+</div>
+</div>
+</section>
+<!-- Guarantee Section -->
+<section class="py-section-gap bg-surface-container-lowest">
+<div class="max-w-container-max mx-auto px-margin-desktop grid grid-cols-1 lg:grid-cols-12 gap-12">
+<div class="lg:col-span-4">
+<span class="text-primary font-bold tracking-widest text-caption uppercase">GARANSI REYTRANS</span>
+<h2 class="font-h2 text-h2 mt-4 leading-tight">Booking tanpa rasa khawatir.</h2>
+</div>
+<div class="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="bg-white p-8 rounded-3xl border border-outline-variant/30 hover:shadow-xl transition-all group">
+<span class="material-symbols-outlined text-primary text-4xl mb-6 block">payments</span>
+<h4 class="font-h3 text-xl mb-2">Harga Transparan</h4>
+<p class="text-on-surface-variant">Tidak ada biaya tambahan tersembunyi yang ditagihkan kemudian hari.</p>
+</div>
+<div class="bg-white p-8 rounded-3xl border border-outline-variant/30 hover:shadow-xl transition-all">
+<span class="material-symbols-outlined text-primary text-4xl mb-6 block">event_busy</span>
+<h4 class="font-h3 text-xl mb-2">Cancel Gratis H-3</h4>
+<p class="text-on-surface-variant">Pembatalan gratis maksimal H-3 dari jadwal keberangkatan Anda.</p>
+</div>
+<div class="bg-white p-8 rounded-3xl border border-outline-variant/30 hover:shadow-xl transition-all">
+<span class="material-symbols-outlined text-primary text-4xl mb-6 block">badge</span>
+<h4 class="font-h3 text-xl mb-2">Sopir Berlisensi</h4>
+<p class="text-on-surface-variant">Sopir berpengalaman dan memiliki lisensi mengemudi resmi yang valid.</p>
+</div>
+<div class="bg-white p-8 rounded-3xl border border-outline-variant/30 hover:shadow-xl transition-all">
+<span class="material-symbols-outlined text-primary text-4xl mb-6 block">chat_bubble</span>
+<h4 class="font-h3 text-xl mb-2">Respon CS 5 Menit</h4>
+<p class="text-on-surface-variant">Fast respon via WhatsApp maksimal 5 menit selama jam operasional.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Services Grid -->
+<section class="py-section-gap">
+<div class="max-w-container-max mx-auto px-margin-desktop">
+<div class="flex justify-between items-end mb-12">
+<div>
+<span class="text-primary font-bold tracking-widest text-caption uppercase">PILIHAN LAYANAN</span>
+<h2 class="font-h2 text-h2 mt-4">Angka yang bicara.</h2>
+</div>
+<a class="text-primary font-bold flex items-center gap-2 hover:underline" href="#">
+                    Lihat semua layanan <span class="material-symbols-outlined">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Card 1 -->
+<div class="bg-white rounded-[32px] overflow-hidden border border-outline-variant/30 lift-on-hover flex flex-col">
+<div class="relative h-64 bg-surface-container-low p-6">
+<span class="absolute top-4 left-4 bg-primary text-white text-caption font-bold px-3 py-1 rounded-full">TERPOPULER</span>
+<img class="w-full h-full object-contain" data-alt="A side view of a large white passenger bus" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC130EDIWL-TK0Ki4YC3cZp7lRXvQFjAGlfYia3pZtQA5qicusJ5C4Xzyo3-24CEA8z3Z7Z_GkrUEf5jXtgKwj4hZ3ywXYvByZP254wHSJRtm6GqIkJ9CBPqt0UJqzb4hMVJmpFw9MDx_hb5HKqazth6FYV3s7JcI-tTsyBhF8C49mZOwXJISu6mMuD2zZLB_Uj9e1PyI2hbQQodwI9aHcgf6e9OJejEx2LJBhGBeYGFqG_AhYeP09_"/>
+</div>
+<div class="p-8 space-y-6 flex-grow">
+<div class="flex justify-between items-center">
+<h3 class="font-h3 text-2xl">Charter Elf Long</h3>
+<span class="text-on-surface-variant font-bold flex items-center gap-1"><span class="material-symbols-outlined">group</span> 20 Kursi</span>
+</div>
+<div class="flex flex-wrap gap-2">
+<span class="bg-surface-container text-caption px-3 py-1 rounded-lg">Sopir</span>
+<span class="bg-surface-container text-caption px-3 py-1 rounded-lg">BBM</span>
+<span class="bg-surface-container text-caption px-3 py-1 rounded-lg">Karaoke</span>
+</div>
+<div class="pt-6 border-t border-outline-variant/20">
+<div class="text-caption text-outline">Mulai dari</div>
+<div class="text-2xl font-bold text-primary">Rp 1.500.000 <span class="text-caption text-outline font-normal">/hari</span></div>
+</div>
+<button class="w-full bg-primary text-white py-4 rounded-2xl font-bold">Pesan Sekarang</button>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-white rounded-[32px] overflow-hidden border border-outline-variant/30 lift-on-hover flex flex-col">
+<div class="relative h-64 bg-surface-container-low p-6">
+<img class="w-full h-full object-contain" data-alt="A modern white Toyota Hiace van" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0b64vCZZ8obAGvuSusMuXUsouwdsITZKtxzZRdVeAnSz76IsGXnvy8V1Vdm_dFEXoBetOzp_kJVuPIilJPrS_LQ_TD7zjRrwtV2NEcOubNEINjqcF7g84cQskbvT3N4iJn5VfICmf5IgZNhPj4F8xV-X-6eEcoyUTPpIcfq8aFr6rjJ9kESXRZBuIMdz-5Z5-z6XP_bOw4lfmHR1JhxdSKBHDl8h0fy9dxcUtrQlRpAARvEK0Jlx1"/>
+</div>
+<div class="p-8 space-y-6 flex-grow">
+<div class="flex justify-between items-center">
+<h3 class="font-h3 text-2xl">Charter Hiace</h3>
+<span class="text-on-surface-variant font-bold flex items-center gap-1"><span class="material-symbols-outlined">group</span> 15 Kursi</span>
+</div>
+<div class="flex flex-wrap gap-2">
+<span class="bg-surface-container text-caption px-3 py-1 rounded-lg">Sopir</span>
+<span class="bg-surface-container text-caption px-3 py-1 rounded-lg">BBM</span>
+<span class="bg-surface-container text-caption px-3 py-1 rounded-lg">AC</span>
+</div>
+<div class="pt-6 border-t border-outline-variant/20">
+<div class="text-caption text-outline">Mulai dari</div>
+<div class="text-2xl font-bold text-primary">Rp 1.200.000 <span class="text-caption text-outline font-normal">/hari</span></div>
+</div>
+<button class="w-full bg-primary text-white py-4 rounded-2xl font-bold">Pesan Sekarang</button>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-white rounded-[32px] overflow-hidden border border-outline-variant/30 lift-on-hover flex flex-col">
+<div class="relative h-64 bg-surface-container-low p-6">
+<img class="w-full h-full object-contain" data-alt="A sleek white Toyota Avanza" src="https://lh3.googleusercontent.com/aida-public/AB6AXuACDjy2xdPYjqgUJ57UzIMMGQkePdDqJ5hmuueGwJKnzYL079YGWb9mzBcd7V6tI-uZ32dIKQvgoVrw_tVVPSiaDZNN8i5pUw9rmT94GKrDIlUht_UzMXypDOQ3kkCaKjsC33TpSNOZZr8ymly-_UH3ktvvJaij4cCqllyHvJCbHQ3Var3mziVDJNMW3L8g_tLE8qADD8WDQC-HjwR-GrFGqeowN_hYQWX37NJ_pnb3iNqCyvCEeOvP"/>
+</div>
+<div class="p-8 space-y-6 flex-grow">
+<div class="flex justify-between items-center">
+<h3 class="font-h3 text-2xl">Charter Privat</h3>
+<span class="text-on-surface-variant font-bold flex items-center gap-1"><span class="material-symbols-outlined">group</span> 6 Kursi</span>
+</div>
+<div class="flex flex-wrap gap-2">
+<span class="bg-surface-container text-caption px-3 py-1 rounded-lg">Sopir</span>
+<span class="bg-surface-container text-caption px-3 py-1 rounded-lg">Door to Door</span>
+</div>
+<div class="pt-6 border-t border-outline-variant/20">
+<div class="text-caption text-outline">Mulai dari</div>
+<div class="text-2xl font-bold text-primary">Rp 800.000 <span class="text-caption text-outline font-normal">/hari</span></div>
+</div>
+<button class="w-full bg-primary text-white py-4 rounded-2xl font-bold">Pesan Sekarang</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Statistics -->
+<section class="py-24 bg-primary">
+<div class="max-w-container-max mx-auto px-margin-desktop grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
+<div class="space-y-2">
+<div class="text-display-lg-mobile text-white font-extrabold">10.000+</div>
+<div class="text-primary-fixed-dim font-bold uppercase tracking-widest text-caption">Pelanggan Puas</div>
+</div>
+<div class="space-y-2">
+<div class="text-display-lg-mobile text-white font-extrabold">4.9/5</div>
+<div class="text-primary-fixed-dim font-bold uppercase tracking-widest text-caption">Google Rating</div>
+</div>
+<div class="space-y-2">
+<div class="text-display-lg-mobile text-white font-extrabold">5 Tahun</div>
+<div class="text-primary-fixed-dim font-bold uppercase tracking-widest text-caption">Pengalaman</div>
+</div>
+<div class="space-y-2">
+<div class="text-display-lg-mobile text-white font-extrabold">100%</div>
+<div class="text-primary-fixed-dim font-bold uppercase tracking-widest text-caption">On Time Arrival</div>
+</div>
+</div>
+</section>
+<!-- Pilihan Mobil & Rental Section -->
+<section class="py-section-gap bg-surface-container-lowest">
+<div class="max-w-container-max mx-auto px-margin-desktop">
+<div class="text-center mb-16 space-y-4">
+<div class="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-1.5 rounded-full text-caption font-bold uppercase tracking-wider">
+<span class="material-symbols-outlined text-[18px]">directions_car</span> Armada Kami
+                </div>
+<h2 class="font-h2 text-h2 text-on-surface">Pilihan Mobil &amp; Rental</h2>
+<div class="w-16 h-1 bg-primary mx-auto rounded-full"></div>
+<p class="text-on-surface-variant font-body-lg max-w-2xl mx-auto">
+                    Pilih armada sesuai kebutuhan rombongan Anda. Hiace &amp; Elf Long dilengkapi AC &amp; Karaoke. Semua termasuk sopir, BBM, &amp; tol.
+                </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap- gutter">
+<!-- Card: Toyota Calya -->
+<div class="bg-white rounded-[24px] border border-outline-variant/30 flex flex-col shadow-sm lift-on-hover overflow-hidden">
+<div class="relative bg-surface-container-low h-48 flex items-center justify-center p-4">
+<span class="absolute top-3 right-3 bg-white/90 backdrop-blur text-green-600 text-[11px] font-bold px-2 py-0.5 rounded-full border border-green-100 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] fill-[1]">check_circle</span> Tersedia
+                        </span>
+<img alt="Toyota Calya" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuACDjy2xdPYjqgUJ57UzIMMGQkePdDqJ5hmuueGwJKnzYL079YGWb9mzBcd7V6tI-uZ32dIKQvgoVrw_tVVPSiaDZNN8i5pUw9rmT94GKrDIlUht_UzMXypDOQ3kkCaKjsC33TpSNOZZr8ymly-_UH3ktvvJaij4cCqllyHvJCbHQ3Var3mziVDJNMW3L8g_tLE8qADD8WDQC-HjwR-GrFGqeowN_hYQWX37NJ_pnb3iNqCyvCEeOvP"/>
+</div>
+<div class="p-6 space-y-4 flex-grow">
+<div>
+<h3 class="font-bold text-lg text-on-surface">Toyota Calya</h3>
+<div class="flex items-center gap-4 mt-2 text-on-surface-variant text-caption">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">commute</span> City Car (Manual)</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">group</span> 6 Penumpang</span>
+</div>
+</div>
+<div class="flex justify-between items-center text-[11px] font-bold text-error">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">local_fire_department</span> Armada terbatas hari ini</span>
+<span>75% Terbooking</span>
+</div>
+<div class="bg-green-50 rounded-lg py-2 px-3 flex items-center gap-2 text-[11px] text-green-700 font-medium">
+<span class="material-symbols-outlined text-[14px]">history</span> Booking terakhir: baru saja
+                        </div>
+<div class="pt-4 border-t border-outline-variant/20 flex items-center justify-between">
+<div>
+<div class="flex items-center gap-2">
+<span class="text-caption text-outline line-through">Rp 312.5k</span>
+<span class="bg-error text-white text-[10px] font-bold px-1.5 py-0.5 rounded">Hemat 20%</span>
+</div>
+<div class="text-primary font-extrabold text-lg">Rp 250k <span class="text-caption text-outline font-normal">/ orang</span></div>
+</div>
+<button class="bg-primary text-white p-2.5 rounded-xl flex items-center justify-center hover:scale-105 transition-transform">
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card: Toyota Avanza -->
+<div class="bg-white rounded-[24px] border border-outline-variant/30 flex flex-col shadow-sm lift-on-hover overflow-hidden">
+<div class="relative bg-surface-container-low h-48 flex items-center justify-center p-4">
+<span class="absolute top-3 right-3 bg-white/90 backdrop-blur text-green-600 text-[11px] font-bold px-2 py-0.5 rounded-full border border-green-100 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] fill-[1]">check_circle</span> Tersedia
+                        </span>
+<img alt="Toyota Avanza" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuACDjy2xdPYjqgUJ57UzIMMGQkePdDqJ5hmuueGwJKnzYL079YGWb9mzBcd7V6tI-uZ32dIKQvgoVrw_tVVPSiaDZNN8i5pUw9rmT94GKrDIlUht_UzMXypDOQ3kkCaKjsC33TpSNOZZr8ymly-_UH3ktvvJaij4cCqllyHvJCbHQ3Var3mziVDJNMW3L8g_tLE8qADD8WDQC-HjwR-GrFGqeowN_hYQWX37NJ_pnb3iNqCyvCEeOvP"/>
+</div>
+<div class="p-6 space-y-4 flex-grow">
+<div>
+<h3 class="font-bold text-lg text-on-surface">Toyota Avanza</h3>
+<div class="flex items-center gap-4 mt-2 text-on-surface-variant text-caption">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">commute</span> MPV (Manual/Matic)</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">group</span> 6 Penumpang</span>
+</div>
+</div>
+<div class="flex justify-between items-center text-[11px] font-bold text-error">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">local_fire_department</span> Tersedia — pesan sekarang</span>
+<span>68% Terbooking</span>
+</div>
+<div class="bg-green-50 rounded-lg py-2 px-3 flex items-center gap-2 text-[11px] text-green-700 font-medium">
+<span class="material-symbols-outlined text-[14px]">history</span> Booking terakhir: baru saja
+                        </div>
+<div class="pt-4 border-t border-outline-variant/20 flex items-center justify-between">
+<div>
+<div class="flex items-center gap-2">
+<span class="text-caption text-outline line-through">Rp 312.5k</span>
+<span class="bg-error text-white text-[10px] font-bold px-1.5 py-0.5 rounded">Hemat 20%</span>
+</div>
+<div class="text-primary font-extrabold text-lg">Rp 250k <span class="text-caption text-outline font-normal">/ orang</span></div>
+</div>
+<button class="bg-primary text-white p-2.5 rounded-xl flex items-center justify-center hover:scale-105 transition-transform">
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card: Toyota Innova -->
+<div class="bg-white rounded-[24px] border border-outline-variant/30 flex flex-col shadow-sm lift-on-hover overflow-hidden">
+<div class="relative bg-surface-container-low h-48 flex items-center justify-center p-4">
+<span class="absolute top-3 right-3 bg-white/90 backdrop-blur text-green-600 text-[11px] font-bold px-2 py-0.5 rounded-full border border-green-100 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] fill-[1]">check_circle</span> Tersedia
+                        </span>
+<img alt="Toyota Innova" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuACDjy2xdPYjqgUJ57UzIMMGQkePdDqJ5hmuueGwJKnzYL079YGWb9mzBcd7V6tI-uZ32dIKQvgoVrw_tVVPSiaDZNN8i5pUw9rmT94GKrDIlUht_UzMXypDOQ3kkCaKjsC33TpSNOZZr8ymly-_UH3ktvvJaij4cCqllyHvJCbHQ3Var3mziVDJNMW3L8g_tLE8qADD8WDQC-HjwR-GrFGqeowN_hYQWX37NJ_pnb3iNqCyvCEeOvP"/>
+</div>
+<div class="p-6 space-y-4 flex-grow">
+<div>
+<h3 class="font-bold text-lg text-on-surface">Toyota Innova</h3>
+<div class="flex items-center gap-4 mt-2 text-on-surface-variant text-caption">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">commute</span> Premium MPV (Matic)</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">group</span> 6 Penumpang</span>
+</div>
+</div>
+<div class="flex justify-between items-center text-[11px] font-bold text-error">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">local_fire_department</span> Favorit keluarga — sering penuh</span>
+<span>78% Terbooking</span>
+</div>
+<div class="bg-green-50 rounded-lg py-2 px-3 flex items-center gap-2 text-[11px] text-green-700 font-medium">
+<span class="material-symbols-outlined text-[14px]">history</span> Booking terakhir: 15 menit yang lalu
+                        </div>
+<div class="pt-4 border-t border-outline-variant/20 flex items-center justify-between">
+<div>
+<div class="flex items-center gap-2">
+<span class="text-caption text-outline line-through">Rp 312.5k</span>
+<span class="bg-error text-white text-[10px] font-bold px-1.5 py-0.5 rounded">Hemat 20%</span>
+</div>
+<div class="text-primary font-extrabold text-lg">Rp 250k <span class="text-caption text-outline font-normal">/ orang</span></div>
+</div>
+<button class="bg-primary text-white p-2.5 rounded-xl flex items-center justify-center hover:scale-105 transition-transform">
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card: Toyota Hiace Commuter (Terpopuler) -->
+<div class="bg-white rounded-[24px] border-2 border-primary flex flex-col shadow-[0_12px_40px_rgba(37,99,235,0.12)] lift-on-hover overflow-hidden relative">
+<span class="absolute top-0 left-0 right-0 bg-primary text-white text-[10px] font-extrabold uppercase tracking-widest text-center py-1 z-20">
+<span class="material-symbols-outlined text-[12px] fill-[1]">star</span> Terpopuler
+                    </span>
+<div class="relative bg-surface-container-low h-48 flex items-center justify-center p-4 pt-8">
+<span class="absolute top-3 right-3 bg-white/90 backdrop-blur text-green-600 text-[11px] font-bold px-2 py-0.5 rounded-full border border-green-100 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] fill-[1]">check_circle</span> Tersedia
+                        </span>
+<img alt="Toyota Hiace" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUdQQocc76uTSR5H7OgLlW209uMCuxH7uOQnOO2HtzZb63xXSLIh0NHOvcq9hzxCb4NguEa9NDfGXTwOK8CH8srNdqLmePRCCS6l9oMFBrnQBMYJf98JzsBoeVw5GgYQKBIJumRSQJFi4ngU0-EmwrGguTXUyjJpqSKJ8HjBIW-X2vRa9NHIPVG1D-357GLZm0eppi7J_SZi6UnFbdXs0H54h_BSHaL6NgzoEDsFQwV-9jNWfNzC45"/>
+</div>
+<div class="p-6 space-y-4 flex-grow">
+<div>
+<h3 class="font-bold text-lg text-on-surface">Toyota Hiace Commuter</h3>
+<div class="flex items-center gap-4 mt-2 text-on-surface-variant text-caption">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">commute</span> Microbus — AC &amp; Karaoke</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">group</span> 15 Penumpang</span>
+</div>
+</div>
+<div class="flex justify-between items-center text-[11px] font-bold text-error">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">local_fire_department</span> Terlaris — favorit rombongan</span>
+<span>74% Terbooking</span>
+</div>
+<div class="bg-green-50 rounded-lg py-2 px-3 flex items-center gap-2 text-[11px] text-green-700 font-medium">
+<span class="material-symbols-outlined text-[14px]">history</span> Booking terakhir: baru saja
+                        </div>
+<div class="pt-4 border-t border-outline-variant/20 flex items-center justify-between">
+<div>
+<div class="flex items-center gap-2">
+<span class="text-caption text-outline line-through">Rp 312.5k</span>
+<span class="bg-error text-white text-[10px] font-bold px-1.5 py-0.5 rounded">Hemat 20%</span>
+</div>
+<div class="text-primary font-extrabold text-lg">Rp 250k <span class="text-caption text-outline font-normal">/ orang</span></div>
+</div>
+<button class="bg-primary text-white p-2.5 rounded-xl flex items-center justify-center hover:scale-105 transition-transform">
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Second row (Optional placement based on grid) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap- gutter mt-8">
+<!-- Card: Elf Long -->
+<div class="bg-white rounded-[24px] border border-outline-variant/30 flex flex-col shadow-sm lift-on-hover overflow-hidden">
+<div class="relative bg-surface-container-low h-48 flex items-center justify-center p-4">
+<span class="absolute top-3 right-3 bg-white/90 backdrop-blur text-green-600 text-[11px] font-bold px-2 py-0.5 rounded-full border border-green-100 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] fill-[1]">check_circle</span> Tersedia
+                        </span>
+<img alt="Elf Long" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC130EDIWL-TK0Ki4YC3cZp7lRXvQFjAGlfYia3pZtQA5qicusJ5C4Xzyo3-24CEA8z3Z7Z_GkrUEf5jXtgKwj4hZ3ywXYvByZP254wHSJRtm6GqIkJ9CBPqt0UJqzb4hMVJmpFw9MDx_hb5HKqazth6FYV3s7JcI-tTsyBhF8C49mZOwXJISu6mMuD2zZLB_Uj9e1PyI2hbQQodwI9aHcgf6e9OJejEx2LJBhGBeYGFqG_AhYeP09_"/>
+</div>
+<div class="p-6 space-y-4 flex-grow">
+<div>
+<h3 class="font-bold text-lg text-on-surface">Elf Long</h3>
+<div class="flex items-center gap-4 mt-2 text-on-surface-variant text-caption">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">commute</span> Microbus — AC &amp; Karaoke</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">group</span> 20 Penumpang</span>
+</div>
+</div>
+<div class="flex justify-between items-center text-[11px] font-bold text-error">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">local_fire_department</span> Kapasitas besar — tersedia 86% terbatas</span>
+<span>Terbooking</span>
+</div>
+<div class="bg-green-50 rounded-lg py-2 px-3 flex items-center gap-2 text-[11px] text-green-700 font-medium">
+<span class="material-symbols-outlined text-[14px]">history</span> Booking terakhir: 30 menit yang lalu
+                        </div>
+<div class="pt-4 border-t border-outline-variant/20 flex items-center justify-between">
+<div>
+<div class="flex items-center gap-2">
+<span class="text-caption text-outline line-through">Rp 312.5k</span>
+<span class="bg-error text-white text-[10px] font-bold px-1.5 py-0.5 rounded">Hemat 20%</span>
+</div>
+<div class="text-primary font-extrabold text-lg">Rp 250k <span class="text-caption text-outline font-normal">/ orang</span></div>
+</div>
+<button class="bg-primary text-white p-2.5 rounded-xl flex items-center justify-center hover:scale-105 transition-transform">
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Route and Tariff -->
+<section class="py-section-gap overflow-hidden">
+<div class="max-w-container-max mx-auto px-margin-desktop">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+<div class="lg:col-span-5">
+<span class="text-primary font-bold tracking-widest text-caption uppercase">RUTE &amp; JADWAL</span>
+<h2 class="font-h2 text-h2 mt-4 leading-tight mb-8">Rute &amp; Tarif Perjalanan Terpopuler.</h2>
+<div class="bg-white rounded-3xl border border-outline-variant/30 overflow-hidden shadow-sm">
+<div class="p-6 bg-surface-container border-b border-outline-variant/30 grid grid-cols-3 font-bold text-caption uppercase tracking-wider">
+<span>RUTE</span>
+<span class="text-center">TARIF</span>
+<span class="text-right">JADWAL</span>
+</div>
+<div class="divide-y divide-outline-variant/20">
+<div class="p-6 grid grid-cols-3 items-center hover:bg-surface transition-colors">
+<span class="font-bold text-sm">Cirebon — JKT</span>
+<span class="text-center text-primary font-bold">Rp 250k</span>
+<span class="text-right text-caption text-outline">05:00 - 20:00</span>
+</div>
+<div class="p-6 grid grid-cols-3 items-center hover:bg-surface transition-colors">
+<span class="font-bold text-sm">Kuningan — JKT</span>
+<span class="text-center text-primary font-bold">Rp 260k</span>
+<span class="text-right text-caption text-outline">04:00 - 19:00</span>
+</div>
+<div class="p-6 grid grid-cols-3 items-center hover:bg-surface transition-colors">
+<span class="font-bold text-sm">Majalengka — JKT</span>
+<span class="text-center text-primary font-bold">Rp 240k</span>
+<span class="text-right text-caption text-outline">06:00 - 21:00</span>
+</div>
+</div>
+</div>
+</div>
+<div class="lg:col-span-7 relative h-[400px] lg:h-[600px] bg-surface-container rounded-3xl overflow-hidden border border-outline-variant/30">
+<!-- Map Placeholder -->
+<div class="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-multiply" data-alt="A detailed map illustration of West Java" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuALz_oVvhfiCAcj3gWKrdKWIyqLPep8tWibKTggNAeV3NLP8RlIW9oQtEIXKe6cfVuG0u_5ocM9E_tSYWBXLhpFDwdaDJFiuV06q5og2T-8L4EwTZDffoo6fZn_su9W89f9cVzpxBWBcj8gMr3uu7Xfino2o9zz6EEuuHqjj0oNLEePsD-fq0ah4VBP0qnUYpNJskOBpe_vN1p65JztNXJ1fY_ahq1LCntCeImstd6_kMqIWUBjDyS_')"></div>
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<div class="bg-white/90 backdrop-blur p-6 rounded-2xl shadow-xl border border-white/50 space-y-2 max-w-xs">
+<div class="flex items-center gap-2 font-bold text-primary">
+<span class="material-symbols-outlined">location_on</span> Hub Utama
+                            </div>
+<p class="text-sm text-on-surface-variant font-medium">Layanan kami menjangkau seluruh area Jabodetabek dan wilayah Ciayumajakuning setiap hari.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Booking Steps -->
+<section class="py-section-gap bg-surface-container-low">
+<div class="max-w-container-max mx-auto px-margin-desktop text-center mb-16">
+<span class="text-primary font-bold tracking-widest text-caption uppercase">CARA BOOKING</span>
+<h2 class="font-h2 text-h2 mt-4">Mudah dalam 3 Langkah.</h2>
+</div>
+<div class="max-w-container-max mx-auto px-margin-desktop grid grid-cols-1 md:grid-cols-3 gap-12">
+<div class="relative group">
+<div class="bg-white p-10 rounded-[40px] border border-outline-variant/30 shadow-sm lift-on-hover relative z-10">
+<div class="bg-primary-container text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl mb-8">1</div>
+<span class="material-symbols-outlined text-primary text-5xl mb-6 block">directions_bus</span>
+<h4 class="font-h3 text-xl mb-4">Pilih Armada</h4>
+<p class="text-on-surface-variant">Tentukan armada yang sesuai dengan jumlah personil dan kebutuhan Anda.</p>
+</div>
+<div class="hidden md:block absolute top-1/2 -right-6 transform -translate-y-1/2 z-0 opacity-20">
+<span class="material-symbols-outlined text-primary text-6xl">arrow_forward</span>
+</div>
+</div>
+<div class="relative group">
+<div class="bg-white p-10 rounded-[40px] border border-outline-variant/30 shadow-sm lift-on-hover relative z-10">
+<div class="bg-primary-container text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl mb-8">2</div>
+<span class="material-symbols-outlined text-primary text-5xl mb-6 block">assignment</span>
+<h4 class="font-h3 text-xl mb-4">Isi Booking</h4>
+<p class="text-on-surface-variant">Lengkapi data penjemputan, tujuan, dan tanggal keberangkatan dengan benar.</p>
+</div>
+<div class="hidden md:block absolute top-1/2 -right-6 transform -translate-y-1/2 z-0 opacity-20">
+<span class="material-symbols-outlined text-primary text-6xl">arrow_forward</span>
+</div>
+</div>
+<div class="group">
+<div class="bg-white p-10 rounded-[40px] border border-outline-variant/30 shadow-sm lift-on-hover">
+<div class="bg-primary-container text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl mb-8">3</div>
+<span class="material-symbols-outlined text-primary text-5xl mb-6 block">check_circle</span>
+<h4 class="font-h3 text-xl mb-4">Konfirmasi</h4>
+<p class="text-on-surface-variant">Dapatkan konfirmasi instan dari admin kami via WhatsApp dan perjalanan siap dimulai.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Blog/Artikel Section -->
+<section class="py-section-gap">
+<div class="max-w-container-max mx-auto px-margin-desktop">
+<div class="text-center mb-16">
+<span class="text-primary font-bold tracking-widest text-caption uppercase">BLOG &amp; ARTIKEL</span>
+<h2 class="font-h2 text-h2 mt-4">Wawasan &amp; Tips Perjalanan</h2>
+<p class="text-on-surface-variant font-body-lg mt-4 max-w-2xl mx-auto">Dapatkan informasi terbaru seputar destinasi wisata dan tips perjalanan nyaman.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Blog Card 1 -->
+<div class="bg-white rounded-[32px] overflow-hidden border border-outline-variant/30 lift-on-hover flex flex-col h-full shadow-sm">
+<div class="relative h-56 overflow-hidden">
+<img alt="Destinasi Wisata" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbzzGFK2R38N9r5hmvuF4tra_zrCF_2dyzN1PHDEVhgSCdG3VCxW9X-gz1niy3Tq3NIX2fvxDjr2RzVjfXDQBNK59ZCtmze5LADyKttUL4QxuW5eMNJsCcl0n75LUUbvosSnBTxpbHJin46DAOm6T2WUGnTx4WyfI-k7G2CoIzCK3W7llHCIPkPhkd_azBk2rn9--ICTZIpph3W0XbyWry0ykxiCsfI7bXMrs2KnOf4AMtxDzw7YZU"/>
+<span class="absolute top-4 left-4 bg-primary text-white text-caption font-bold px-3 py-1 rounded-full">Destinasi</span>
+</div>
+<div class="p-8 space-y-4 flex-grow flex flex-col">
+<div class="flex items-center gap-4 text-caption text-outline">
+<span>15 Okt 2023</span>
+<span>•</span>
+<span>Admin Reytrans</span>
+</div>
+<h3 class="font-h3 text-xl line-clamp-2">5 Destinasi Tersembunyi di Jawa Barat yang Wajib Dikunjungi</h3>
+<p class="text-on-surface-variant text-sm line-clamp-3 flex-grow">Jelajahi keindahan alam Jawa Barat yang belum banyak diketahui orang untuk liburan akhir pekan Anda berikutnya.</p>
+<a class="text-primary font-bold flex items-center gap-2 group hover:gap-3 transition-all pt-4" href="#">
+                            Baca Selengkapnya <span class="material-symbols-outlined">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Blog Card 2 -->
+<div class="bg-white rounded-[32px] overflow-hidden border border-outline-variant/30 lift-on-hover flex flex-col h-full shadow-sm">
+<div class="relative h-56 overflow-hidden">
+<img alt="Tips Perjalanan" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHipLi_z06G9k6j6_M_fU6XSHHWRxH8LwM0F4dwCTMOhNBSqlCyoIBWidZR4ZW2macE7AeremeNb6xH_upq5NhU0MlDV9kufYd-KEulkdt_764dWdYwSqAf1AO5YUe0VIMshISWytz6IbNWDbt3CDFiNXQg7wZRnj-bQSPz8R-YsuugbeqkM2D3Xy5dCnvCfoOVGBDMhNvEfBlQoB0af6puge0i865QasHGgMXD2I5qYFsfEU9eBsk"/>
+<span class="absolute top-4 left-4 bg-secondary-container text-white text-caption font-bold px-3 py-1 rounded-full">Tips</span>
+</div>
+<div class="p-8 space-y-4 flex-grow flex flex-col">
+<div class="flex items-center gap-4 text-caption text-outline">
+<span>12 Okt 2023</span>
+<span>•</span>
+<span>Travel Specialist</span>
+</div>
+<h3 class="font-h3 text-xl line-clamp-2">Tips Packing Efisien untuk Perjalanan Travel Jarak Jauh</h3>
+<p class="text-on-surface-variant text-sm line-clamp-3 flex-grow">Bagaimana cara mengatur barang bawaan agar ringkas dan tetap membawa semua kebutuhan penting selama di jalan.</p>
+<a class="text-primary font-bold flex items-center gap-2 group hover:gap-3 transition-all pt-4" href="#">
+                            Baca Selengkapnya <span class="material-symbols-outlined">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Blog Card 3 -->
+<div class="bg-white rounded-[32px] overflow-hidden border border-outline-variant/30 lift-on-hover flex flex-col h-full shadow-sm">
+<div class="relative h-56 overflow-hidden">
+<img alt="Berita Terbaru" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-mCvi7abTPNPQTZ6Qlbj59n71KVtgYE_CXD0aR6BJXoNiivtto6TH8yXPBWNZKDqcjWcGyza02Sm7qteuMGEJkk8pBp-WvejkWjUmibCVtgkWoKJc68zSjwtyJUyzkyiPlcgblXplGoHYHlEVKcJDWm9Cu7bXx5KyhK182V2RdYRa7NcTxbF30PcamtZranXrMS08z07MGb9m8VhMvXo6LmryStJeoMc4KXTomWXXB0G5nd6D2NeY"/>
+<span class="absolute top-4 left-4 bg-surface-container-highest text-on-surface text-caption font-bold px-3 py-1 rounded-full">Berita</span>
+</div>
+<div class="p-8 space-y-4 flex-grow flex flex-col">
+<div class="flex items-center gap-4 text-caption text-outline">
+<span>08 Okt 2023</span>
+<span>•</span>
+<span>Update</span>
+</div>
+<h3 class="font-h3 text-xl line-clamp-2">Reytrans Kini Melayani Rute Baru ke Wilayah Brebes</h3>
+<p class="text-on-surface-variant text-sm line-clamp-3 flex-grow">Komitmen kami untuk terus memperluas jangkauan layanan demi kenyamanan pelanggan di seluruh wilayah Pantura.</p>
+<a class="text-primary font-bold flex items-center gap-2 group hover:gap-3 transition-all pt-4" href="#">
+                            Baca Selengkapnya <span class="material-symbols-outlined">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Testimonial Section -->
+<section class="py-section-gap bg-surface-container-low/30">
+<div class="max-w-container-max mx-auto px-margin-desktop">
+<div class="text-center mb-16">
+<span class="text-primary font-bold tracking-widest text-caption uppercase">TESTIMONI</span>
+<h2 class="font-h2 text-h2 mt-4">Apa Kata Mereka?</h2>
+<p class="text-on-surface-variant font-body-lg mt-4 max-w-2xl mx-auto">Ribuan pelanggan telah merasakan kenyamanan perjalanan bersama Reytrans.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Testimonial 1 -->
+<div class="bg-white p-8 rounded-[32px] border border-outline-variant/30 flex flex-col shadow-sm lift-on-hover">
+<div class="flex gap-1 mb-6">
+<span class="material-symbols-outlined text-yellow-400" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-yellow-400" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-yellow-400" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-yellow-400" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-yellow-400" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<blockquote class="text-on-surface font-body-md mb-8 flex-grow">
+                        "Layanan travel terbaik yang pernah saya coba. Sopirnya sangat ramah and mobilnya sangat bersih. Jemputnya tepat waktu di depan rumah."
+                    </blockquote>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-primary-container/20 flex items-center justify-center text-primary font-bold">BP</div>
+<div>
+<div class="font-bold">Budi Pratama</div>
+<div class="text-caption text-outline">Jakarta Selatan</div>
+</div>
+</div>
+</div>
+<!-- Testimonial 2 -->
+<div class="bg-white p-8 rounded-[32px] border border-outline-variant/30 flex flex-col shadow-sm lift-on-hover">
+<div class="flex gap-1 mb-6">
+<span class="material-symbols-outlined text-yellow-400" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-yellow-400" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-yellow-400" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-yellow-400" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-yellow-400" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<blockquote class="text-on-surface font-body-md mb-8 flex-grow">
+                        "Sangat puas dengan layanan charter untuk keluarga. Elf Long-nya nyaman, AC dingin, and ada karaoke jadi perjalanan jauh tidak membosankan."
+                    </blockquote>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-secondary-container/20 flex items-center justify-center text-secondary font-bold">SR</div>
+<div>
+<div class="font-bold">Siti Rahayu</div>
+<div class="text-caption text-outline">Cirebon</div>
+</div>
+</div>
+</div>
+<!-- Testimonial 3 -->
+<div class="bg-white p-8 rounded-[32px] border border-outline-variant/30 flex flex-col shadow-sm lift-on-hover">
+<div class="flex gap-1 mb-6">
+<span class="material-symbols-outlined text-yellow-400" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-yellow-400" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-yellow-400" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-yellow-400" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-yellow-400" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<blockquote class="text-on-surface font-body-md mb-8 flex-grow">
+                        "Fast response admin WhatsApp-nya! Proses booking hanya 5 menit and langsung dapat jadwal keberangkatan. Sangat efisien untuk yang butuh cepat."
+                    </blockquote>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-tertiary-container/20 flex items-center justify-center text-tertiary font-bold">AN</div>
+<div>
+<div class="font-bold">Andi Nugroho</div>
+<div class="text-caption text-outline">Kuningan</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Form Pemesanan Section -->
+<section class="py-section-gap">
+<div class="max-w-container-max mx-auto px-margin-desktop">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+<div class="space-y-8">
+<div>
+<span class="text-primary font-bold tracking-widest text-caption uppercase">PESAN SEKARANG</span>
+<h2 class="font-h2 text-h2 mt-4 leading-tight">Booking Cepat &amp; Mudah</h2>
+<p class="text-on-surface-variant font-body-lg mt-4">Isi detail perjalanan Anda and tim kami akan segera menghubungi Anda untuk konfirmasi.</p>
+</div>
+<form class="space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="text-label-sm font-bold block ml-1">Titik Penjemputan</label>
+<input class="w-full px-6 py-4 rounded-[14px] border border-outline-variant/50 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all bg-white" placeholder="Contoh: Jl. Sudirman No. 1, Jakarta" required="" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="text-label-sm font-bold block ml-1">Tujuan</label>
+<input class="w-full px-6 py-4 rounded-[14px] border border-outline-variant/50 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all bg-white" placeholder="Contoh: Stasiun Cirebon" required="" type="text"/>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="text-label-sm font-bold block ml-1">Tanggal Perjalanan</label>
+<input class="w-full px-6 py-4 rounded-[14px] border border-outline-variant/50 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all bg-white" required="" type="date"/>
+</div>
+<div class="space-y-2">
+<label class="text-label-sm font-bold block ml-1">Jumlah Penumpang</label>
+<input class="w-full px-6 py-4 rounded-[14px] border border-outline-variant/50 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all bg-white" min="1" placeholder="0" required="" type="number"/>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-label-sm font-bold block ml-1">Tipe Armada</label>
+<select class="w-full px-6 py-4 rounded-[14px] border border-outline-variant/50 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all bg-white">
+<option value="travel-reguler">Travel Reguler</option>
+<option value="hiace">Charter Hiace (15 Kursi)</option>
+<option value="elf-long">Charter Elf Long (20 Kursi)</option>
+<option value="privat">Charter Privat (6 Kursi)</option>
+</select>
+</div>
+<button class="w-full bg-primary text-white py-5 rounded-[14px] font-bold text-lg hover:shadow-lg hover:bg-primary/90 transition-all flex items-center justify-center gap-2" type="submit">
+<span class="material-symbols-outlined">send</span> Kirim Permintaan Booking
+                        </button>
+</form>
+</div>
+<div class="lg:sticky lg:top-32 space-y-8">
+<div class="bg-surface-container-low p-10 rounded-[40px] border border-outline-variant/30 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-5">
+<span class="material-symbols-outlined text-[120px]">security</span>
+</div>
+<h3 class="font-h3 text-2xl mb-6">Keamanan Data Terjamin</h3>
+<p class="text-on-surface-variant font-body-md mb-8">Data pribadi and detail perjalanan Anda akan dijaga kerahasiaannya and hanya digunakan untuk keperluan koordinasi penjemputan.</p>
+<ul class="space-y-4">
+<li class="flex items-center gap-3 font-bold text-on-surface">
+<span class="material-symbols-outlined text-green-600">verified_user</span> Enkripsi SSL 256-bit
+                            </li>
+<li class="flex items-center gap-3 font-bold text-on-surface">
+<span class="material-symbols-outlined text-green-600">verified_user</span> Sesuai UU Perlindungan Data
+                            </li>
+<li class="flex items-center gap-3 font-bold text-on-surface">
+<span class="material-symbols-outlined text-green-600">verified_user</span> Tidak Ada Spam WhatsApp
+                            </li>
+</ul>
+</div>
+<div class="flex items-center gap-6 p-6 bg-white rounded-3xl border border-outline-variant/30 shadow-sm">
+<div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-3xl">headset_mic</span>
+</div>
+<div>
+<div class="font-bold text-lg">Bantuan 24/7</div>
+<div class="text-on-surface-variant">Hubungi kami kapan saja jika ada kendala.</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- FAQ Section -->
+<section class="py-section-gap">
+<div class="max-w-3xl mx-auto px-margin-mobile">
+<div class="text-center mb-16">
+<span class="text-primary font-bold tracking-widest text-caption uppercase">FAQ</span>
+<h2 class="font-h2 text-h2 mt-4">Pertanyaan Umum</h2>
+</div>
+<div class="space-y-4">
+<details class="group bg-white border border-outline-variant/30 rounded-2xl overflow-hidden" open="">
+<summary class="flex justify-between items-center p-6 cursor-pointer font-bold hover:bg-surface-container-low transition-colors list-none">
+<span>Apakah bisa booking mendadak?</span>
+<span class="material-symbols-outlined group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<div class="p-6 pt-0 text-on-surface-variant border-t border-outline-variant/10">
+                        Ya, Anda bisa melakukan booking mendadak minimal 3 jam sebelum keberangkatan, selama ketersediaan armada masih ada. Namun kami menyarankan booking H-1 untuk kepastian.
+                    </div>
+</details>
+<details class="group bg-white border border-outline-variant/30 rounded-2xl overflow-hidden">
+<summary class="flex justify-between items-center p-6 cursor-pointer font-bold hover:bg-surface-container-low transition-colors list-none">
+<span>Apakah harga sudah include semua?</span>
+<span class="material-symbols-outlined group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<div class="p-6 pt-0 text-on-surface-variant border-t border-outline-variant/10">
+                        Harga yang tertera untuk charter sudah termasuk unit, sopir, BBM, and Tol. Untuk travel reguler sudah include layanan door-to-door dalam radius tertentu.
+                    </div>
+</details>
+<details class="group bg-white border border-outline-variant/30 rounded-2xl overflow-hidden">
+<summary class="flex justify-between items-center p-6 cursor-pointer font-bold hover:bg-surface-container-low transition-colors list-none">
+<span>Bagaimana cara pembayarannya?</span>
+<span class="material-symbols-outlined group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<div class="p-6 pt-0 text-on-surface-variant border-t border-outline-variant/10">
+                        Pembayaran bisa dilakukan melalui transfer bank ke rekening resmi kami atau bayar tunai kepada sopir saat penjemputan (khusus travel reguler).
+                    </div>
+</details>
+</div>
+</div>
+</section>
+<!-- Final CTA Banner -->
+<section class="pb-section-gap px-margin-mobile">
+<div class="max-w-container-max mx-auto bg-primary rounded-[48px] p-12 lg:p-24 relative overflow-hidden flex flex-col lg:flex-row items-center gap-12">
+<div class="absolute top-0 right-0 w-1/2 h-full opacity-10 pointer-events-none">
+<div class="absolute inset-0 bg-gradient-to-l from-white/20 to-transparent"></div>
+</div>
+<div class="z-10 flex-1 space-y-8 text-center lg:text-left">
+<h2 class="text-white font-display-lg text-display-lg-mobile lg:text-h2 leading-tight">Siap Berangkat Hari Ini?</h2>
+<p class="text-primary-fixed-dim text-body-lg max-w-md mx-auto lg:mx-0">Booking sekarang and nikmati perjalanan yang nyaman, aman, and pastinya tepat waktu.</p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+<button class="bg-white text-primary px-10 py-5 rounded-2xl font-bold text-lg flex items-center justify-center gap-2 hover:scale-105 transition-transform">
+<span class="material-symbols-outlined">chat</span> Booking WhatsApp
+                    </button>
+<button class="bg-primary border-2 border-white/30 text-white px-10 py-5 rounded-2xl font-bold text-lg hover:bg-white/10 transition-colors">
+                        Lihat Jadwal
+                    </button>
+</div>
+</div>
+<div class="flex-1 w-full lg:w-auto relative">
+<img class="w-full object-contain transform lg:scale-125 z-10 drop-shadow-2xl" data-alt="A dynamic collage of modern white travel vans" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLLUU1P20buihB8mE_DhoxvgA6f-iUMRq5ZdAh0M7TbZJLoiN_A4L_HKf5C-FrB1dCTiGsy9YCJZkOzfX9r0EGM6ynGJpQIaEF1R9Nylr0S5XzLabq_7XAD1ra9F9tyUNh5-8hnwEgWcoOWXydr6xps535_4GtQge4BjAPx1DY0patwYcv-D1wR8xVfUBBNClP1RiA28drqTu3HlMwGxRldJAYpBvOMwnGYpREM-W3HRxE-Urch3TU"/>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest border-t border-outline-variant/20 pt-section-gap pb-12">
+<div class="max-w-container-max mx-auto px-margin-desktop grid grid-cols-1 md:grid-cols-5 gap-gutter">
+<div class="md:col-span-2 space-y-6">
+<span class="font-h3 text-h3 font-bold text-on-surface">Reytrans</span>
+<p class="text-on-surface-variant font-body-md max-w-sm">
+                    Penyedia layanan transportasi terpercaya untuk rute Jabodetabek, Cirebon, Kuningan, Majalengka, and sekitarnya. Prioritas kami adalah kenyamanan Anda.
+                </p>
+<div class="flex gap-4">
+<a class="w-10 h-10 bg-surface-container flex items-center justify-center rounded-full text-primary hover:bg-primary hover:text-white transition-all" href="#"><span class="material-symbols-outlined">face_nod</span></a>
+<a class="w-10 h-10 bg-surface-container flex items-center justify-center rounded-full text-primary hover:bg-primary hover:text-white transition-all" href="#"><span class="material-symbols-outlined">photo_camera</span></a>
+</div>
+</div>
+<div>
+<h4 class="font-bold text-on-surface mb-6">Menu</h4>
+<ul class="space-y-4">
+<li><a class="text-on-surface-variant hover:text-primary hover:translate-x-1 transition-all inline-block" href="#">Beranda</a></li>
+<li><a class="text-on-surface-variant hover:text-primary hover:translate-x-1 transition-all inline-block" href="#">Layanan</a></li>
+<li><a class="text-on-surface-variant hover:text-primary hover:translate-x-1 transition-all inline-block" href="#">Armada</a></li>
+<li><a class="text-on-surface-variant hover:text-primary hover:translate-x-1 transition-all inline-block" href="#">Kontak</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-on-surface mb-6">Layanan</h4>
+<ul class="space-y-4">
+<li><a class="text-on-surface-variant hover:text-primary hover:translate-x-1 transition-all inline-block" href="#">Travel Reguler</a></li>
+<li><a class="text-on-surface-variant hover:text-primary hover:translate-x-1 transition-all inline-block" href="#">Charter Privat</a></li>
+<li><a class="text-on-surface-variant hover:text-primary hover:translate-x-1 transition-all inline-block" href="#">Antar Jemput</a></li>
+<li><a class="text-on-surface-variant hover:text-primary hover:translate-x-1 transition-all inline-block" href="#">Paket Barang</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-on-surface mb-6">Kontak</h4>
+<ul class="space-y-4 text-on-surface-variant">
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-sm">phone</span> 0812-3456-7890</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-sm">mail</span> info@reytrans.id</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-sm">location_on</span> Cirebon, Indonesia</li>
+</ul>
+</div>
+</div>
+<div class="max-w-container-max mx-auto px-margin-desktop mt-24 pt-8 border-t border-outline-variant/10 flex flex-col md:row justify-between items-center gap-4 text-caption text-outline">
+<p>© 2024 Reytrans Travel &amp; Charter. All rights reserved.</p>
+<div class="flex gap-8">
+<a class="hover:text-primary transition-colors" href="#">Kebijakan Privasi</a>
+<a class="hover:text-primary transition-colors" href="#">Syarat &amp; Ketentuan</a>
+</div>
+</div>
+</footer>
+</body></html>

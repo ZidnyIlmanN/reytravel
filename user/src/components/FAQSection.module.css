@@ -1,0 +1,127 @@
+.filterRow {
+  display: flex;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: var(--sp-8);
+}
+
+.filterBtn {
+  padding: var(--sp-2) var(--sp-5);
+  border-radius: var(--r-full);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  color: var(--clr-text-secondary);
+  background: var(--clr-card);
+  border: 1.5px solid var(--clr-border);
+  transition: all var(--dur-base) var(--ease);
+}
+.filterBtn:hover {
+  border-color: var(--clr-primary);
+  color: var(--clr-primary);
+  background: var(--clr-primary-ghost);
+}
+
+.filterBtnActive,
+.filterBtn.filterBtnActive {
+  background: var(--clr-primary) !important;
+  color: #fff !important;
+  border-color: var(--clr-primary) !important;
+}
+
+.filterBtnActive:hover,
+.filterBtn.filterBtnActive:hover {
+  background: var(--clr-primary-dark) !important;
+  color: #fff !important;
+  border-color: var(--clr-primary-dark) !important;
+}
+
+/* ── List ── */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+/* ── Per-item stagger animation (pure CSS, no JS observer) ── */
+@keyframes faqFadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.itemAnimate {
+  animation: faqFadeIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--item-i, 0) * 70ms);
+}
+
+/* ── Accordion item ── */
+.item {
+  background: var(--clr-card);
+  border: 1.5px solid var(--clr-border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  transition: border-color var(--dur-base), box-shadow var(--dur-base);
+}
+.item:hover  { border-color: var(--clr-primary); }
+.itemOpen    { border-color: var(--clr-primary); box-shadow: 0 0 0 3px var(--clr-primary-ghost); }
+
+.trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding: var(--sp-5) var(--sp-6);
+  text-align: left;
+  font-size: var(--fs-base);
+  font-weight: var(--fw-semibold);
+  color: var(--clr-text);
+  transition: color var(--dur-base);
+}
+.itemOpen .trigger { color: var(--clr-primary); }
+
+.question { flex: 1; }
+
+.chevron {
+  flex-shrink: 0;
+  color: var(--clr-text-muted);
+  transition: transform var(--dur-slow) var(--ease), color var(--dur-base);
+}
+.chevronOpen { transform: rotate(180deg); color: var(--clr-primary); }
+
+/* ── Answer — CSS max-height transition ── */
+.answerWrap {
+  overflow: hidden;
+  transition: max-height var(--dur-slow) var(--ease-out);
+}
+
+.answer {
+  padding: 0 var(--sp-6) var(--sp-5);
+  font-size: var(--fs-sm);
+  color: var(--clr-text-secondary);
+  line-height: var(--lh-relaxed);
+  border-top: 1px solid var(--clr-border);
+  padding-top: var(--sp-4);
+}
+
+/* ── Bottom CTA ── */
+.cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-5);
+  flex-wrap: wrap;
+  margin-top: var(--sp-10);
+  text-align: center;
+}
+
+.cta p {
+  font-size: var(--fs-md);
+  color: var(--clr-text-secondary);
+}
+
+@media (max-width: 639px) {
+  .trigger { padding: var(--sp-4) var(--sp-4); }
+  .answer  { padding: var(--sp-3) var(--sp-4) var(--sp-4); }
+  .cta { flex-direction: column; }
+}

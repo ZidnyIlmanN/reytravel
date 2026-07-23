@@ -1,0 +1,170 @@
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: var(--sp-12);
+  align-items: start;
+}
+
+.subTitle {
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-bold);
+  color: var(--clr-text);
+  margin-bottom: var(--sp-6);
+}
+
+/* ── Timeline ── */
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.step {
+  display: flex;
+  gap: var(--sp-4);
+  align-items: flex-start;
+}
+
+.stepIndicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.node {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r-full);
+  background: linear-gradient(135deg, var(--clr-primary), var(--clr-primary-dark));
+  color: #fff;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-primary);
+  flex-shrink: 0;
+  position: relative;
+  z-index: var(--z-raised);
+}
+
+.line {
+  width: 2px;
+  flex: 1;
+  min-height: var(--sp-8);
+  background: linear-gradient(180deg, var(--clr-primary), rgba(0, 100, 210, .2));
+  margin-block: var(--sp-1);
+}
+
+.stepContent {
+  padding-bottom: var(--sp-6);
+  padding-top: var(--sp-2);
+}
+
+.stepTitle {
+  font-size: var(--fs-base);
+  font-weight: var(--fw-bold);
+  color: var(--clr-text);
+  display: block;
+  margin-bottom: var(--sp-1);
+}
+
+.stepDesc {
+  font-size: var(--fs-sm);
+  color: var(--clr-text-secondary);
+  line-height: var(--lh-relaxed);
+}
+
+/* ── Map ── */
+.mapCol {}
+
+.mapFrame {
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--clr-border);
+  margin-bottom: var(--sp-4);
+}
+
+.mapInfo {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-3);
+  padding: var(--sp-4) var(--sp-5);
+  background: var(--clr-primary-ghost);
+  border-radius: var(--r-lg);
+  border: 1px solid rgba(0, 100, 210, .2);
+}
+
+.mapInfoIcon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+
+.mapInfo strong { display: block; font-size: var(--fs-sm); font-weight: var(--fw-bold); color: var(--clr-primary-dark); margin-bottom: var(--sp-1); }
+.mapInfo p { font-size: var(--fs-sm); color: var(--clr-text-secondary); line-height: var(--lh-relaxed); }
+
+/* ── Info Tables (Tarif & Jadwal) ── */
+.tableGrid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: var(--sp-8);
+  margin-top: var(--sp-12);
+  align-items: start;
+}
+
+.tableContainer {
+  background: var(--clr-card);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--r-xl);
+  padding: var(--sp-6);
+  box-shadow: var(--shadow-sm);
+}
+
+.tableTitle {
+  font-size: var(--fs-base);
+  font-weight: var(--fw-bold);
+  color: var(--clr-text);
+  margin-bottom: var(--sp-4);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.table th {
+  padding: var(--sp-3) var(--sp-4);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  text-transform: uppercase;
+  color: var(--clr-text-secondary);
+  border-bottom: 2px solid var(--clr-border);
+  letter-spacing: 0.05em;
+}
+
+.table td {
+  padding: calc(var(--sp-3) + 2px) var(--sp-4);
+  font-size: var(--fs-sm);
+  color: var(--clr-text);
+  border-bottom: 1px solid var(--clr-border);
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.table tr:hover td {
+  background: var(--clr-primary-ghost);
+  color: var(--clr-primary-dark);
+}
+
+.highlightText {
+  color: var(--clr-primary);
+  font-weight: var(--fw-bold);
+}
+
+/* ── Responsive ── */
+@media (max-width: 1023px) {
+  .layout { grid-template-columns: 1fr; gap: var(--sp-10); }
+  .tableGrid { grid-template-columns: 1fr; gap: var(--sp-8); }
+}
