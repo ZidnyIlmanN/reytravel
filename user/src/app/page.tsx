@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 
 // Services
@@ -17,9 +17,11 @@ import {
 } from '@/lib/supabase';
 
 // Components
-import AIChat from '@/components/AIChat';
 import SocialProofToast from '@/components/SocialProofToast';
+import SearchModal from '@/components/SearchModal';
 import ExitIntentPopup from '@/components/ExitIntentPopup';
+import AIChat from '@/components/AIChat';
+import CustomSelect from '@/components/CustomSelect';
 
 // Fallback Mock Data if Supabase is offline/empty
 const MOCK_PACKAGES: TravelPackage[] = [
@@ -183,6 +185,24 @@ export default function Page() {
   const [error, setError] = useState('');
 
   const [isScrolled, setIsScrolled] = useState(false);
+  const [statsVisible, setStatsVisible] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const statsRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        setStatsVisible(true);
+        observer.disconnect(); // only animate once
+      }
+    }, { threshold: 0.2 });
+
+    if (statsRef.current) {
+      observer.observe(statsRef.current);
+    }
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -197,7 +217,7 @@ export default function Page() {
       try {
         const dbPackages = await getTravelPackages();
         if (dbPackages && dbPackages.length > 0) setPackages(dbPackages);
-      } catch (err) {}
+      } catch (err) { }
       try {
         const dbCars = await getAvailableCars();
         if (dbCars && dbCars.length > 0) {
@@ -214,15 +234,15 @@ export default function Page() {
         } else {
           setCars(MOCK_CARS);
         }
-      } catch (err) {}
+      } catch (err) { }
       try {
         const dbFaqs = await getFAQs();
         if (dbFaqs && dbFaqs.length > 0) setFaqs(dbFaqs);
-      } catch (err) {}
+      } catch (err) { }
       try {
         const dbArticles = await getPublishedArticles();
         if (dbArticles && dbArticles.length > 0) setArticles(dbArticles);
-      } catch (err) {}
+      } catch (err) { }
     }
     loadData();
   }, []);
@@ -240,7 +260,7 @@ export default function Page() {
     const isUUID = (str: string) => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(str);
     const cleanCarId = form.carId && isUUID(form.carId) ? form.carId : null;
     const cleanPackageId = form.packageId && isUUID(form.packageId) ? form.packageId : null;
-    
+
     let finalMessage = `[Tipe Layanan: ${form.serviceType}] [Penumpang: ${form.passengers || '-'}]`;
     if (form.message) finalMessage += ` ${form.message}`;
 
@@ -291,29 +311,56 @@ export default function Page() {
   return (
     <div className="bg-background text-on-surface font-body-md selection:bg-primary/20">
       {/* Navigation */}
-      <header className={`docked full-width top-0 fixed w-full h-[88px] z-[99] flex items-center transition-all duration-300 ${
-        isScrolled ? 'bg-surface/90 glass-nav border-b border-outline-variant/30 shadow-sm' : 'bg-transparent border-transparent'
-      }`}>
+      <header className={`docked full-width top-0 fixed w-full h-[88px] z-[100] flex items-center transition-all duration-300 ${isScrolled || isMobileMenuOpen ? 'bg-surface/90 glass-nav border-b border-outline-variant/30 shadow-sm' : 'bg-transparent border-transparent'
+        }`}>
         <nav className="flex justify-between items-center px-margin-desktop w-full max-w-container-max mx-auto">
           <div className="flex items-center gap-2">
             <span className={`font-h3 text-h3 font-extrabold transition-colors ${isScrolled ? 'text-on-surface' : 'text-white'}`}>Reytrans</span>
           </div>
           <div className="hidden lg:flex items-center gap-8">
-            <a className={`font-label-sm text-label-sm font-bold border-b-2 pb-1 transition-colors ${isScrolled ? 'text-primary border-primary' : 'text-white border-white'}`} href="#">Beranda</a>
-            <button onClick={() => handleNavClick('services')} className={`font-label-sm text-label-sm transition-colors ${isScrolled ? 'text-on-surface-variant hover:text-primary' : 'text-white/80 hover:text-white'}`}>Layanan</button>
-            <button onClick={() => handleNavClick('route')} className={`font-label-sm text-label-sm transition-colors ${isScrolled ? 'text-on-surface-variant hover:text-primary' : 'text-white/80 hover:text-white'}`}>Rute & Jadwal</button>
-            <button onClick={() => handleNavClick('booking')} className={`font-label-sm text-label-sm transition-colors ${isScrolled ? 'text-on-surface-variant hover:text-primary' : 'text-white/80 hover:text-white'}`}>Booking</button>
-            <button onClick={() => handleNavClick('faq')} className={`font-label-sm text-label-sm transition-colors ${isScrolled ? 'text-on-surface-variant hover:text-primary' : 'text-white/80 hover:text-white'}`}>FAQ</button>
+            <a className={`text-base font-bold transition-colors ${isScrolled ? 'text-primary' : 'text-white'}`} href="#">Beranda</a>
+            <button onClick={() => handleNavClick('services')} className={`text-base font-bold transition-colors ${isScrolled ? 'text-on-surface-variant hover:text-primary' : 'text-white/80 hover:text-white'}`}>Layanan</button>
+            <button onClick={() => handleNavClick('route')} className={`text-base font-bold transition-colors ${isScrolled ? 'text-on-surface-variant hover:text-primary' : 'text-white/80 hover:text-white'}`}>Rute & Jadwal</button>
+            <button onClick={() => handleNavClick('booking')} className={`text-base font-bold transition-colors ${isScrolled ? 'text-on-surface-variant hover:text-primary' : 'text-white/80 hover:text-white'}`}>Booking</button>
+            <button onClick={() => handleNavClick('faq')} className={`text-base font-bold transition-colors ${isScrolled ? 'text-on-surface-variant hover:text-primary' : 'text-white/80 hover:text-white'}`}>FAQ</button>
           </div>
-          <button onClick={() => handleNavClick('booking')} className="bg-primary text-on-primary px-6 py-3 rounded-full font-label-sm text-label-sm hover:scale-[1.02] transition-transform flex items-center gap-2 shadow-md">
-            <span className="material-symbols-outlined text-[20px]">chat</span> WhatsApp
-          </button>
+          <div className="flex items-center gap-3">
+            <button onClick={() => setIsSearchOpen(true)} className={`p-2 rounded-full transition-colors flex items-center justify-center ${isScrolled || isMobileMenuOpen ? 'text-on-surface-variant hover:bg-surface-container' : 'text-white hover:bg-white/10'}`} aria-label="Search">
+              <span className="material-symbols-outlined text-[24px]">search</span>
+            </button>
+            <button onClick={handleWA} className="hidden lg:flex bg-primary text-on-primary px-6 py-3 rounded-full font-label-sm text-label-sm hover:scale-[1.02] transition-transform items-center gap-2 shadow-md">
+              <span className="material-symbols-outlined text-[20px]">chat</span> WhatsApp
+            </button>
+            <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className={`lg:hidden p-2 rounded-full transition-colors flex items-center justify-center ${isScrolled || isMobileMenuOpen ? 'text-on-surface-variant' : 'text-white hover:bg-white/10'}`} aria-label="Menu">
+              <span className="material-symbols-outlined text-[28px]">{isMobileMenuOpen ? 'close' : 'menu'}</span>
+            </button>
+          </div>
         </nav>
       </header>
 
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <div className="fixed inset-0 top-[88px] z-[98] bg-white lg:hidden flex flex-col p-6 shadow-xl animate-in fade-in slide-in-from-top-4 duration-300">
+          <div className="flex flex-col gap-6 font-bold text-lg text-on-surface">
+            <a href="#" onClick={() => setIsMobileMenuOpen(false)}>Beranda</a>
+            <button className="text-left hover:text-primary transition-colors" onClick={() => { handleNavClick('services'); setIsMobileMenuOpen(false); }}>Layanan</button>
+            <button className="text-left hover:text-primary transition-colors" onClick={() => { handleNavClick('route'); setIsMobileMenuOpen(false); }}>Rute & Jadwal</button>
+            <button className="text-left hover:text-primary transition-colors" onClick={() => { handleNavClick('booking'); setIsMobileMenuOpen(false); }}>Booking</button>
+            <button className="text-left hover:text-primary transition-colors" onClick={() => { handleNavClick('faq'); setIsMobileMenuOpen(false); }}>FAQ</button>
+          </div>
+          <div className="mt-8 flex justify-center">
+            <button onClick={handleWA} className="w-full justify-center bg-primary text-on-primary px-6 py-4 rounded-full font-bold text-base hover:scale-[1.02] transition-transform flex items-center gap-2 shadow-md">
+              <span className="material-symbols-outlined text-[24px]">chat</span> Pesan Sekarang (WhatsApp)
+            </button>
+          </div>
+        </div>
+      )}
+
+      <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} cars={cars} articles={articles} />
+
       {/* Hero Section */}
       <section className="relative h-screen flex items-center overflow-hidden bg-cover bg-center" style={{ backgroundImage: "url('/assets/Cover Reytrans.png')" }}>
-        <div className="absolute inset-0 bg-black/20 z-0"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/20 to-transparent z-0"></div>
         <div className="max-w-container-max mx-auto px-margin-desktop w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10 w-full h-full pt-[88px]">
           <div className="lg:col-span-12 xl:col-span-7 space-y-8">
             <h1 className="font-display-lg text-display-lg-mobile lg:text-display-lg leading-tight text-white drop-shadow-md">
@@ -328,7 +375,7 @@ export default function Page() {
               </button>
             </div>
           </div>
-          
+
           {/* Badges mapped to bottom right */}
           <div className="absolute bottom-8 right-8 hidden lg:flex flex-wrap gap-4 z-20 justify-end">
             <span className="bg-transparent px-5 py-3 rounded-full text-caption text-white border-2 border-white/70 flex items-center gap-2 drop-shadow-md backdrop-blur-sm"><span className="material-symbols-outlined text-[18px]">person</span> Include Sopir</span>
@@ -368,25 +415,41 @@ export default function Page() {
             <h2 className="font-h2 text-h2 mt-4 leading-tight">Booking tanpa rasa khawatir.</h2>
           </div>
           <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-white p-8 rounded-3xl border border-outline-variant/30 hover:shadow-xl transition-all group">
-              <span className="material-symbols-outlined text-primary text-4xl mb-6 block">payments</span>
-              <h4 className="font-h3 text-xl mb-2">Harga Transparan</h4>
-              <p className="text-on-surface-variant">Tidak ada biaya tambahan tersembunyi yang ditagihkan kemudian hari.</p>
+            <div className="relative p-8 rounded-3xl border border-outline-variant/30 hover:shadow-xl transition-all overflow-hidden group">
+              <div className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style={{ backgroundImage: "url('/assets/Garansi/info-1.png')" }}></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-white from-30% via-white/90 to-transparent z-0"></div>
+              <div className="relative z-10 text-black max-w-[85%]">
+                <span className="material-symbols-outlined text-primary text-4xl mb-6 block drop-shadow-sm">payments</span>
+                <h4 className="font-bold text-xl mb-2">Harga Transparan</h4>
+                <p className="text-black/80 text-sm">Tidak ada biaya tambahan tersembunyi yang ditagihkan kemudian hari.</p>
+              </div>
             </div>
-            <div className="bg-white p-8 rounded-3xl border border-outline-variant/30 hover:shadow-xl transition-all">
-              <span className="material-symbols-outlined text-primary text-4xl mb-6 block">event_busy</span>
-              <h4 className="font-h3 text-xl mb-2">Cancel Gratis H-3</h4>
-              <p className="text-on-surface-variant">Pembatalan gratis maksimal H-3 dari jadwal keberangkatan Anda.</p>
+            <div className="relative p-8 rounded-3xl border border-outline-variant/30 hover:shadow-xl transition-all overflow-hidden group">
+              <div className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style={{ backgroundImage: "url('/assets/Garansi/info-2.png')" }}></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-white from-30% via-white/90 to-transparent z-0"></div>
+              <div className="relative z-10 text-black max-w-[85%]">
+                <span className="material-symbols-outlined text-primary text-4xl mb-6 block drop-shadow-sm">event_busy</span>
+                <h4 className="font-bold text-xl mb-2">Cancel Gratis H-3</h4>
+                <p className="text-black/80 text-sm">Pembatalan gratis maksimal H-3 dari jadwal keberangkatan Anda.</p>
+              </div>
             </div>
-            <div className="bg-white p-8 rounded-3xl border border-outline-variant/30 hover:shadow-xl transition-all">
-              <span className="material-symbols-outlined text-primary text-4xl mb-6 block">badge</span>
-              <h4 className="font-h3 text-xl mb-2">Sopir Berlisensi</h4>
-              <p className="text-on-surface-variant">Sopir berpengalaman dan memiliki lisensi mengemudi resmi yang valid.</p>
+            <div className="relative p-8 rounded-3xl border border-outline-variant/30 hover:shadow-xl transition-all overflow-hidden group">
+              <div className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style={{ backgroundImage: "url('/assets/Garansi/info-3.png')" }}></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-white from-30% via-white/90 to-transparent z-0"></div>
+              <div className="relative z-10 text-black max-w-[85%]">
+                <span className="material-symbols-outlined text-primary text-4xl mb-6 block drop-shadow-sm">badge</span>
+                <h4 className="font-bold text-xl mb-2">Sopir Berlisensi</h4>
+                <p className="text-black/80 text-sm">Sopir berpengalaman dan memiliki lisensi mengemudi resmi yang valid.</p>
+              </div>
             </div>
-            <div className="bg-white p-8 rounded-3xl border border-outline-variant/30 hover:shadow-xl transition-all">
-              <span className="material-symbols-outlined text-primary text-4xl mb-6 block">chat_bubble</span>
-              <h4 className="font-h3 text-xl mb-2">Respon CS 5 Menit</h4>
-              <p className="text-on-surface-variant">Fast respon via WhatsApp maksimal 5 menit selama jam operasional.</p>
+            <div className="relative p-8 rounded-3xl border border-outline-variant/30 hover:shadow-xl transition-all overflow-hidden group">
+              <div className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style={{ backgroundImage: "url('/assets/Garansi/info-4.png')" }}></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-white from-30% via-white/90 to-transparent z-0"></div>
+              <div className="relative z-10 text-black max-w-[85%]">
+                <span className="material-symbols-outlined text-primary text-4xl mb-6 block drop-shadow-sm">chat_bubble</span>
+                <h4 className="font-bold text-xl mb-2">Respon CS 5 Menit</h4>
+                <p className="text-black/80 text-sm">Fast respon via WhatsApp maksimal 5 menit selama operasional.</p>
+              </div>
             </div>
           </div>
         </div>
@@ -408,7 +471,7 @@ export default function Page() {
                   {idx === 0 && <span className="absolute top-4 left-4 bg-primary text-white text-caption font-bold px-3 py-1 rounded-full">TERPOPULER</span>}
                   <img className="w-full h-full object-contain" src={pkg.image_url || '/assets/hiace.png'} alt={pkg.title} />
                 </div>
-                
+
                 <div className="p-8 space-y-6 flex-grow flex flex-col">
                   <div className="flex justify-between items-start">
                     <h3 className="font-h3 text-xl font-bold pr-4 leading-tight">{pkg.title}</h3>
@@ -416,13 +479,13 @@ export default function Page() {
                       <span className="material-symbols-outlined">group</span> {pkg.features?.[0]?.match(/\d+/)?.[0] || '14'}
                     </span>
                   </div>
-                  
+
                   {/* Pills */}
                   <div className="flex flex-wrap gap-2 pt-1 border-t border-outline-variant/20 hidden">
                     <span className="bg-surface-container text-caption px-3 py-2 rounded-full">Sopir</span>
                     <span className="bg-surface-container text-caption px-3 py-2 rounded-full">BBM</span>
                   </div>
-                  
+
                   {/* Description */}
                   <p className="text-sm text-on-surface-variant leading-relaxed min-h-[4.5rem]">
                     {pkg.description}
@@ -430,15 +493,15 @@ export default function Page() {
 
                   {/* Pricing Placeholder */}
                   <div className="space-y-1">
-                     <div className="text-primary font-extrabold text-lg">{pkg.duration}</div>
+                    <div className="text-primary font-extrabold text-lg">{pkg.duration}</div>
                   </div>
 
                   {/* Features List */}
                   <div className="flex-grow space-y-2 mt-4 pb-6">
                     {pkg.features?.map((feat, fidx) => (
                       <div key={fidx} className="flex items-start gap-2 text-sm text-on-surface-variant">
-                         <span className="material-symbols-outlined text-[16px] text-primary shrink-0 mt-0.5">check</span>
-                         <span>{feat}</span>
+                        <span className="material-symbols-outlined text-[16px] text-primary shrink-0 mt-0.5">check</span>
+                        <span>{feat}</span>
                       </div>
                     ))}
                   </div>
@@ -457,23 +520,41 @@ export default function Page() {
       </section>
 
       {/* Statistics */}
-      <section className="py-24 bg-primary">
-        <div className="max-w-container-max mx-auto px-margin-desktop grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
-          <div className="space-y-2">
-            <div className="text-display-lg-mobile text-white font-extrabold">10.000+</div>
-            <div className="text-primary-fixed-dim font-bold uppercase tracking-widest text-caption">Pelanggan Puas</div>
+      <section ref={statsRef} className="relative w-full mt-24 mb-16 lg:mt-16 lg:mb-24 flex items-end lg:items-stretch overflow-hidden lg:overflow-visible">
+        {/* Blue Banner Strip: starts lower down so the image can bulge over the top. Matches bottom exactly. */}
+        <div className={`absolute inset-x-0 bottom-0 top-20 lg:top-32 bg-primary z-0 transition-transform duration-1000 ease-out ${statsVisible ? 'translate-x-0' : '-translate-x-full'}`}></div>
+
+        {/* Full-bleed Absolute Image for Desktop */}
+        <div className={`absolute inset-y-0 left-0 z-10 hidden lg:flex flex-col justify-end pointer-events-none transition-all duration-1000 delay-300 ease-out ${statsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
+          <img src="/assets/Trust.png" alt="Trust Reytrans" className="h-[105%] xl:h-[112%] w-auto object-contain object-left-bottom transform -translate-x-[15%] lg:-translate-x-[20%] pointer-events-none" />
+        </div>
+
+        {/* Content */}
+        <div className="relative z-20 max-w-container-max mx-auto px-margin-desktop flex flex-col lg:flex-row w-full h-full lg:justify-end">
+
+          <div className="w-full lg:hidden flex justify-start pointer-events-none mt-12 -mb-2 z-10">
+            {/* Mobile / Tablet fallback image */}
+            <img src="/assets/Trust.png" alt="Trust" className={`w-[125%] max-w-none transform -translate-x-[15%] transition-all duration-1000 delay-300 ease-out ${statsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`} />
           </div>
-          <div className="space-y-2">
-            <div className="text-display-lg-mobile text-white font-extrabold">4.9/5</div>
-            <div className="text-primary-fixed-dim font-bold uppercase tracking-widest text-caption">Google Rating</div>
-          </div>
-          <div className="space-y-2">
-            <div className="text-display-lg-mobile text-white font-extrabold">5 Tahun</div>
-            <div className="text-primary-fixed-dim font-bold uppercase tracking-widest text-caption">Pengalaman</div>
-          </div>
-          <div className="space-y-2">
-            <div className="text-display-lg-mobile text-white font-extrabold">100%</div>
-            <div className="text-primary-fixed-dim font-bold uppercase tracking-widest text-caption">On Time Arrival</div>
+
+          {/* Stats container: shifted to right half */}
+          <div className="w-full lg:w-1/2 grid grid-cols-2 gap-x-6 sm:gap-x-12 gap-y-10 lg:gap-y-16 py-12 lg:pt-48 lg:pb-24 lg:pl-12 xl:pl-24 text-left z-20">
+            <div className={`space-y-1 sm:space-y-2 text-left transition-all duration-700 delay-500 ease-out ${statsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+              <div className="text-4xl sm:text-5xl lg:text-5xl xl:text-6xl text-white font-black tracking-tight drop-shadow-sm">10.000+</div>
+              <div className="text-white font-bold uppercase tracking-widest text-[10px] sm:text-xs">Pelanggan Puas</div>
+            </div>
+            <div className={`space-y-1 sm:space-y-2 text-left transition-all duration-700 delay-600 ease-out ${statsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+              <div className="text-4xl sm:text-5xl lg:text-5xl xl:text-6xl text-white font-black tracking-tight drop-shadow-sm">4.9/5</div>
+              <div className="text-white font-bold uppercase tracking-widest text-[10px] sm:text-xs">Google Rating</div>
+            </div>
+            <div className={`space-y-1 sm:space-y-2 text-left transition-all duration-700 delay-700 ease-out ${statsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+              <div className="text-4xl sm:text-5xl lg:text-5xl xl:text-6xl text-white font-black tracking-tight drop-shadow-sm">5 Tahun</div>
+              <div className="text-white font-bold uppercase tracking-widest text-[10px] sm:text-xs">Pengalaman</div>
+            </div>
+            <div className={`space-y-1 sm:space-y-2 text-left transition-all duration-700 delay-800 ease-out ${statsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+              <div className="text-4xl sm:text-5xl lg:text-5xl xl:text-6xl text-white font-black tracking-tight drop-shadow-sm">100%</div>
+              <div className="text-white font-bold uppercase tracking-widest text-[10px] sm:text-xs">On Time Arrival</div>
+            </div>
           </div>
         </div>
       </section>
@@ -490,69 +571,90 @@ export default function Page() {
               Pilih armada sesuai kebutuhan rombongan Anda. Hiace & Elf Long dilengkapi AC & Karaoke. Semua termasuk sopir, BBM, & tol.
             </p>
           </div>
-          {/* First row: first 4 cars */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
-            {cars.slice(0, 4).map((car, idx) => {
+          {/* Car list: scroll on mobile, grid on desktop */}
+          <div className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide lg:grid lg:grid-cols-3 lg:overflow-visible lg:snap-none lg:pb-0">
+            {cars.map((car, idx) => {
               const isTerpopuler = car.name.toLowerCase().includes('hiace');
-              const percentBooked = idx === 0 ? '75%' : idx === 1 ? '68%' : idx === 2 ? '78%' : '74%';
-              const badgeText = idx === 0 ? 'Armada terbatas hari ini' : idx === 1 ? 'Tersedia — pesan sekarang' : idx === 2 ? 'Favorit keluarga — sering penuh' : 'Terlaris — favorit rombongan';
-              const lastBooked = idx === 0 ? 'baru saja' : idx === 1 ? 'baru saja' : idx === 2 ? '15 menit yang lalu' : 'baru saja';
+              const transmission = car.name.toLowerCase().includes('hiace') || car.name.toLowerCase().includes('elf') ? 'Manual' : 'Automatic';
+              const fuel = car.name.toLowerCase().includes('hiace') || car.name.toLowerCase().includes('elf') || car.name.toLowerCase().includes('innova') ? 'Diesel' : 'Bensin';
 
               return (
                 <div
                   key={car.id || idx}
-                  className={`bg-white rounded-[24px] flex flex-col shadow-sm lift-on-hover overflow-hidden relative ${
-                    isTerpopuler ? 'border-2 border-primary shadow-[0_12px_40px_rgba(37,99,235,0.12)]' : 'border border-outline-variant/30'
-                  }`}
+                  className={`bg-white rounded-[16px] flex flex-col shadow-sm border overflow-hidden relative min-w-[300px] sm:min-w-[320px] flex-shrink-0 snap-start lg:min-w-0 lg:flex-shrink lg:snap-align-none ${isTerpopuler ? 'border-primary shadow-[0_4px_20px_rgba(37,99,235,0.08)]' : 'border-outline-variant/30'
+                    }`}
                 >
                   {isTerpopuler && (
                     <span className="absolute top-0 left-0 right-0 bg-primary text-white text-[10px] font-extrabold uppercase tracking-widest text-center py-1 z-20 flex items-center justify-center gap-1">
                       <span className="material-symbols-outlined text-[12px] fill-[1]">star</span> Terpopuler
                     </span>
                   )}
-                  <div className={`relative bg-surface-container-low h-48 flex items-center justify-center p-4 ${isTerpopuler ? 'pt-8' : ''}`}>
-                    {car.is_available && (
-                      <span className="absolute top-3 right-3 bg-white/90 backdrop-blur text-green-600 text-[11px] font-bold px-2 py-0.5 rounded-full border border-green-100 flex items-center gap-1">
-                        <span className="material-symbols-outlined text-[14px] fill-[1]">check_circle</span> Tersedia
-                      </span>
-                    )}
+                  {/* Image container */}
+                  <div className={`relative bg-surface-container-lowest h-48 flex items-center justify-center p-4 ${isTerpopuler ? 'pt-8' : ''}`}>
                     <img
                       alt={car.name}
-                      className="w-full h-full object-contain"
+                      className="w-full h-[90%] object-contain"
                       src={car.image_url || '/assets/avanza.jpg'}
                     />
+                    {/* Rating Badge Overlay */}
+                    <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-white rounded-lg border border-outline-variant/30 shadow-[0_2px_8px_rgba(0,0,0,0.05)] px-3 py-1 flex items-center gap-1 text-[11px] font-bold text-on-surface whitespace-nowrap">
+                      <span className="text-green-500 material-symbols-outlined text-[14px] fill-[1]">star</span> 4.96 <span className="font-normal text-on-surface-variant">(672 reviews)</span>
+                    </div>
                   </div>
-                  <div className="p-6 space-y-4 flex-grow">
-                    <div>
-                      <h3 className="font-bold text-lg text-on-surface">{car.name}</h3>
-                      <div className="flex items-center gap-4 mt-2 text-on-surface-variant text-caption">
-                        <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[18px]">commute</span> {car.type}</span>
-                        <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[18px]">group</span> {car.capacity} Penumpang</span>
+
+                  {/* Content Container */}
+                  <div className="p-6 pt-8 space-y-4 flex-grow flex flex-col">
+                    {/* Title & Location */}
+                    <div className="mb-1">
+                      <h3 className="font-bold text-lg text-on-surface tracking-tight leading-snug">{car.name}</h3>
+                      <div className="flex items-center gap-1 text-on-surface-variant text-xs mt-1">
+                        <span className="material-symbols-outlined text-[14px]">location_on</span> Cirebon, Indonesia
                       </div>
                     </div>
-                    <div className="flex justify-between items-center text-[11px] font-bold text-error">
-                      <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[14px]">local_fire_department</span> {badgeText}</span>
-                      <span>{percentBooked} Terbooking</span>
+
+                    <div className="h-px w-full bg-outline-variant/20 my-4"></div>
+
+                    {/* Features Grid */}
+                    <div className="grid grid-cols-2 gap-y-4 gap-x-2 text-xs font-medium text-on-surface-variant">
+                      <div className="flex items-center gap-2">
+                        <span className="material-symbols-outlined text-[16px]">commute</span>
+                        <span className="truncate">{car.type}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="material-symbols-outlined text-[16px]">settings</span>
+                        <span className="truncate">{transmission}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="material-symbols-outlined text-[16px]">local_gas_station</span>
+                        <span className="truncate">{fuel}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="material-symbols-outlined text-[16px]">person</span>
+                        <span className="truncate">{car.capacity} Seats</span>
+                      </div>
                     </div>
-                    <div className="bg-green-50 rounded-lg py-2 px-3 flex items-center gap-2 text-[11px] text-green-700 font-medium">
-                      <span className="material-symbols-outlined text-[14px]">history</span> Booking terakhir: {lastBooked}
-                    </div>
-                    <div className="pt-4 border-t border-outline-variant/20 flex items-center justify-between">
-                      <div>
+
+                    <div className="flex-grow"></div>
+
+                    {/* Footer / Price & CTA */}
+                    <div className="pt-4 flex items-end justify-between border-t border-outline-variant/20 mt-4 h-[60px]">
+                      <div className="flex flex-col">
                         <div className="flex items-center gap-2">
-                          <span className="text-caption text-outline line-through">Rp {Math.round(car.price_per_day * 1.25).toLocaleString('id-ID')}</span>
-                          <span className="bg-error text-white text-[10px] font-bold px-1.5 py-0.5 rounded">Hemat 20%</span>
+                          <span className="text-[11px] text-outline line-through font-normal">Rp {Math.round(car.price_per_day * 1.25).toLocaleString('id-ID')}</span>
                         </div>
-                        <div className="text-primary font-extrabold text-lg">Rp {car.price_per_day.toLocaleString('id-ID')} <span className="text-caption text-outline font-normal">/ hari</span></div>
+                        <div className="text-on-surface text-sm flex items-baseline gap-1">
+                          <span className="text-on-surface-variant text-xs">Mulai</span>
+                          <span className="font-extrabold text-lg text-primary">Rp {car.price_per_day.toLocaleString('id-ID')}</span>
+                        </div>
                       </div>
                       <button
                         onClick={() => {
                           setForm({ ...form, carId: car.id });
                           handleNavClick('booking');
                         }}
-                        className="bg-primary text-white p-2.5 rounded-xl flex items-center justify-center hover:scale-105 transition-transform cursor-pointer"
+                        className="bg-surface-container-low text-on-surface font-semibold text-xs px-5 py-2.5 rounded-lg border border-outline-variant/30 hover:bg-surface-container transition-colors whitespace-nowrap"
                       >
-                        <span className="material-symbols-outlined">arrow_forward</span>
+                        Pesan Now
                       </button>
                     </div>
                   </div>
@@ -560,149 +662,137 @@ export default function Page() {
               );
             })}
           </div>
-          {/* Second row: remaining cars */}
-          {cars.length > 4 && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter mt-8">
-              {cars.slice(4).map((car, idx) => {
-                const realIdx = idx + 4;
-                const percentBooked = '86%';
-                const badgeText = 'Kapasitas besar — tersedia terbatas';
-                const lastBooked = '30 menit yang lalu';
-
-                return (
-                  <div
-                    key={car.id || realIdx}
-                    className="bg-white rounded-[24px] border border-outline-variant/30 flex flex-col shadow-sm lift-on-hover overflow-hidden"
-                  >
-                    <div className="relative bg-surface-container-low h-48 flex items-center justify-center p-4">
-                      {car.is_available && (
-                        <span className="absolute top-3 right-3 bg-white/90 backdrop-blur text-green-600 text-[11px] font-bold px-2 py-0.5 rounded-full border border-green-100 flex items-center gap-1">
-                          <span className="material-symbols-outlined text-[14px] fill-[1]">check_circle</span> Tersedia
-                        </span>
-                      )}
-                      <img
-                        alt={car.name}
-                        className="w-full h-full object-contain"
-                        src={car.image_url || '/assets/elf.png'}
-                      />
-                    </div>
-                    <div className="p-6 space-y-4 flex-grow">
-                      <div>
-                        <h3 className="font-bold text-lg text-on-surface">{car.name}</h3>
-                        <div className="flex items-center gap-4 mt-2 text-on-surface-variant text-caption">
-                          <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[18px]">commute</span> {car.type}</span>
-                          <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[18px]">group</span> {car.capacity} Penumpang</span>
-                        </div>
-                      </div>
-                      <div className="flex justify-between items-center text-[11px] font-bold text-error">
-                        <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[14px]">local_fire_department</span> {badgeText}</span>
-                        <span>{percentBooked} Terbooking</span>
-                      </div>
-                      <div className="bg-green-50 rounded-lg py-2 px-3 flex items-center gap-2 text-[11px] text-green-700 font-medium">
-                        <span className="material-symbols-outlined text-[14px]">history</span> Booking terakhir: {lastBooked}
-                      </div>
-                      <div className="pt-4 border-t border-outline-variant/20 flex items-center justify-between">
-                        <div>
-                          <div className="flex items-center gap-2">
-                            <span className="text-caption text-outline line-through">Rp {Math.round(car.price_per_day * 1.25).toLocaleString('id-ID')}</span>
-                            <span className="bg-error text-white text-[10px] font-bold px-1.5 py-0.5 rounded">Hemat 20%</span>
-                          </div>
-                          <div className="text-primary font-extrabold text-lg">Rp {car.price_per_day.toLocaleString('id-ID')} <span className="text-caption text-outline font-normal">/ hari</span></div>
-                        </div>
-                        <button
-                          onClick={() => {
-                            setForm({ ...form, carId: car.id });
-                            handleNavClick('booking');
-                          }}
-                          className="bg-primary text-white p-2.5 rounded-xl flex items-center justify-center hover:scale-105 transition-transform cursor-pointer"
-                        >
-                          <span className="material-symbols-outlined">arrow_forward</span>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
         </div>
       </section>
 
       {/* Routes & Map */}
-      <section id="route" className="py-section-gap overflow-hidden">
+      <section id="route" className="py-section-gap overflow-hidden bg-surface-container-lowest">
         <div className="max-w-container-max mx-auto px-margin-desktop">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
-            <div className="lg:col-span-6 flex flex-col gap-8">
-              <div>
-                <span className="text-primary font-bold tracking-widest text-caption uppercase">RUTE & JADWAL</span>
-                <h2 className="font-h2 text-h2 mt-4 leading-tight">Daftar Tarif & Jadwal Reguler</h2>
+          <div className="text-center md:text-left mb-8 md:mb-12">
+            <span className="text-primary font-bold tracking-widest text-caption uppercase">RUTE & JADWAL</span>
+            <h2 className="font-h2 text-h2 mt-4 leading-tight">Daftar Tarif & Jadwal Reguler</h2>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+            {/* Tarif Table */}
+            <div className="bg-white rounded-3xl border border-outline-variant/30 overflow-hidden shadow-sm flex flex-col h-full">
+              <div className="p-4 md:p-6 bg-surface-container border-b border-outline-variant/30 grid grid-cols-3 font-bold text-[10px] md:text-caption uppercase tracking-wider">
+                <span className="col-span-2">Rute Keberangkatan & Tujuan</span>
+                <span className="text-right">Tarif / Orang</span>
               </div>
-              
-              {/* Tarif Table */}
-              <div className="bg-white rounded-3xl border border-outline-variant/30 overflow-hidden shadow-sm">
-                <div className="p-4 md:p-6 bg-surface-container border-b border-outline-variant/30 grid grid-cols-3 font-bold text-[10px] md:text-caption uppercase tracking-wider">
-                  <span className="col-span-2">Rute Keberangkatan & Tujuan</span>
-                  <span className="text-right">Tarif / Orang</span>
-                </div>
-                <div className="divide-y divide-outline-variant/20 text-sm md:text-base">
-                  {[
-                    { rute: 'Jakarta ↔ Cirebon', tarif: 'Rp 250.000' },
-                    { rute: 'Jakarta ↔ Indramayu', tarif: 'Rp 250.000' },
-                    { rute: 'Bogor ↔ Cirebon / Indramayu', tarif: 'Rp 250.000' },
-                    { rute: 'Tangerang ↔ Cirebon / Indramayu', tarif: 'Rp 250.000' },
-                    { rute: 'Bandara Soekarno-Hatta (Sutta) ↔ Cirebon / Indramayu', tarif: 'Rp 250.000' },
-                    { rute: 'Depok / Bekasi ↔ Cirebon / Indramayu', tarif: 'Rp 250.000' },
-                  ].map((item, i) => (
-                    <div key={i} className="p-4 md:p-6 grid grid-cols-3 items-center hover:bg-surface transition-colors">
-                      <span className="font-bold col-span-2 pr-4">{item.rute}</span>
-                      <span className="text-right text-primary font-bold">{item.tarif}</span>
-                    </div>
-                  ))}
-                  <div className="p-4 md:p-6 bg-surface text-caption text-outline-variant italic">
-                    * Catatan: Harga di atas sewaktu-waktu dapat berubah sesuai hari raya/high season tanpa pemberitahuan terlebih dahulu.
+              <div className="divide-y divide-outline-variant/20 text-sm md:text-base flex-grow">
+                {[
+                  { rute: 'Jakarta ↔ Cirebon', tarif: 'Rp 250.000' },
+                  { rute: 'Jakarta ↔ Indramayu', tarif: 'Rp 250.000' },
+                  { rute: 'Bogor ↔ Cirebon / Indramayu', tarif: 'Rp 250.000' },
+                  { rute: 'Tangerang ↔ Cirebon / Indramayu', tarif: 'Rp 250.000' },
+                  { rute: 'Bandara Soekarno-Hatta (Sutta) ↔ Cirebon / Indramayu', tarif: 'Rp 250.000' },
+                  { rute: 'Depok / Bekasi ↔ Cirebon / Indramayu', tarif: 'Rp 250.000' },
+                ].map((item, i) => (
+                  <div key={i} className="p-4 md:p-5 grid grid-cols-3 items-center hover:bg-surface transition-colors">
+                    <span className="font-bold col-span-2 pr-4 text-on-surface">{item.rute}</span>
+                    <span className="text-right text-primary font-bold">{item.tarif}</span>
                   </div>
+                ))}
+              </div>
+              <div className="p-4 md:p-5 bg-surface text-caption text-outline-variant italic border-t border-outline-variant/20">
+                * Catatan: Harga di atas sewaktu-waktu dapat berubah sesuai hari raya/high season tanpa pemberitahuan terlebih dahulu.
+              </div>
+            </div>
+
+            {/* Jadwal Table */}
+            <div className="bg-white rounded-3xl border border-outline-variant/30 overflow-hidden shadow-sm flex flex-col h-full">
+              <div className="p-4 md:p-6 bg-surface-container border-b border-outline-variant/30 grid grid-cols-3 gap-2 font-bold text-[9px] md:text-caption uppercase tracking-wider">
+                <span>Keberangkatan Dari</span>
+                <span className="text-center">Jadwal Pagi/Siang</span>
+                <span className="text-right">Jadwal Malam</span>
+              </div>
+              <div className="divide-y divide-outline-variant/20 text-xs md:text-sm flex-grow">
+                {[
+                  { dari: 'Jakarta / Jabodetabek', pagi: '08:00 WIB', malam: '20:00 WIB' },
+                  { dari: 'Cirebon / Kuningan', pagi: '08:00 & 12:30 WIB', malam: '20:00 WIB' },
+                  { dari: 'Indramayu', pagi: '12:00 WIB (Siang)', malam: '23:00 WIB' },
+                ].map((item, i) => (
+                  <div key={i} className="p-4 md:p-6 grid grid-cols-3 gap-2 items-center hover:bg-surface transition-colors py-8">
+                    <span className="font-bold pr-2 text-on-surface">{item.dari}</span>
+                    <span className="text-center text-primary font-bold">{item.pagi}</span>
+                    <span className="text-right text-primary font-bold">{item.malam}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="p-4 md:p-6 bg-surface text-caption text-outline-variant italic border-t border-outline-variant/20">
+                * Penjemputan door-to-door langsung ke rumah Anda dimulai 1-2 jam sebelum jam keberangkatan di atas.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Alur Perjalanan & Lokasi */}
+      <section className="py-section-gap bg-white border-t border-outline-variant/20">
+        <div className="max-w-container-max mx-auto px-margin-desktop">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+
+            {/* Left: Alur Perjalanan */}
+            <div className="bg-primary rounded-3xl p-6 md:p-8 shadow-sm h-full">
+              <h3 className="text-2xl md:text-3xl font-h3 font-extrabold text-white mb-6 md:mb-8">Alur Perjalanan Door-to-Door</h3>
+
+              <div className="space-y-4">
+                {[
+                  { step: 1, title: 'Pesan via WhatsApp', desc: 'Hubungi CS kami, tentukan tanggal & jumlah penumpang. Konfirmasi dalam 5 menit.' },
+                  { step: 2, title: 'Penjemputan Rumah', desc: 'Sopir kami datang langsung ke depan rumah Anda sesuai jadwal yang disepakati.' },
+                  { step: 3, title: 'Penjemputan Bergantian', desc: 'Penumpang lain dijemput secara bergantian sesuai urutan rute yang efisien.' },
+                  { step: 4, title: 'Perjalanan Nyaman', desc: 'Nikmati perjalanan dengan armada AC (+ Karaoke untuk Hiace & Elf Long).' },
+                  { step: 5, title: 'Sampai Tujuan', desc: 'Tiba di tujuan dengan selamat. Biaya sudah all-in: sopir, BBM, & tol.' },
+                ].map((item, i) => (
+                  <div key={i} className="flex items-start gap-4 md:gap-5 group bg-white p-4 md:p-5 rounded-2xl shadow-sm transition-transform hover:-translate-y-1">
+                    <div className="w-10 h-10 md:w-12 md:h-12 bg-primary/10 text-primary rounded-full flex items-center justify-center font-bold text-lg md:text-xl shrink-0 transform transition-transform group-hover:scale-110">
+                      {item.step}
+                    </div>
+                    <div className="pt-0.5">
+                      <h4 className="font-bold text-base md:text-lg text-on-surface mb-1">{item.title}</h4>
+                      <p className="text-sm text-on-surface-variant leading-relaxed max-w-sm">{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Right: Lokasi Kantor */}
+            <div>
+              <h3 className="text-2xl md:text-3xl font-h3 font-extrabold text-on-surface mb-6 md:mb-8 pt-2">Lokasi Kantor Kami</h3>
+
+              <div className="bg-white rounded-[24px] p-2 md:p-3 pb-0 border border-outline-variant/30 mb-6 overflow-hidden">
+                <div className="w-full h-[250px] md:h-[300px] rounded-[16px] overflow-hidden bg-surface-container relative">
+                  {/* Google Maps embed or placeholder image matching the styling */}
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1983.1360098520336!2d108.4357!3d-6.7027!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6f1f0a!2sCikeduk%2C%20Depok%2C%20Cirebon!5e0!3m2!1sen!2sid!4v1689230101010!5m2!1sen!2sid"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen={false}
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title="Lokasi Kantor Reytrans"
+                    className="absolute inset-0 grayscale-[20%] contrast-[1.1]"
+                  ></iframe>
                 </div>
               </div>
 
-              {/* Jadwal Table */}
-              <div className="bg-white rounded-3xl border border-outline-variant/30 overflow-hidden shadow-sm">
-                <div className="p-4 md:p-6 bg-surface-container border-b border-outline-variant/30 grid grid-cols-3 gap-2 font-bold text-[9px] md:text-caption uppercase tracking-wider">
-                  <span>Keberangkatan Dari</span>
-                  <span className="text-center">Jadwal Pagi/Siang</span>
-                  <span className="text-right">Jadwal Malam</span>
+              <div className="bg-primary rounded-[20px] p-5 md:p-6 border border-primary flex gap-4 items-start transition-shadow">
+                <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center shrink-0">
+                  <span className="material-symbols-outlined text-white">location_on</span>
                 </div>
-                <div className="divide-y divide-outline-variant/20 text-xs md:text-sm">
-                  {[
-                    { dari: 'Jakarta / Jabodetabek', pagi: '08:00 WIB', malam: '20:00 WIB' },
-                    { dari: 'Cirebon / Kuningan', pagi: '08:00 & 12:30 WIB', malam: '20:00 WIB' },
-                    { dari: 'Indramayu', pagi: '12:00 WIB (Siang)', malam: '23:00 WIB' },
-                  ].map((item, i) => (
-                    <div key={i} className="p-4 md:p-6 grid grid-cols-3 gap-2 items-center hover:bg-surface transition-colors">
-                      <span className="font-bold pr-2">{item.dari}</span>
-                      <span className="text-center text-primary font-bold">{item.pagi}</span>
-                      <span className="text-right text-primary font-bold">{item.malam}</span>
-                    </div>
-                  ))}
-                  <div className="p-4 md:p-6 bg-surface text-caption text-outline-variant italic">
-                    * Penjemputan door-to-door langsung ke rumah Anda dimulai 1-2 jam sebelum jam keberangkatan di atas.
-                  </div>
+                <div>
+                  <h4 className="font-bold text-white mb-2 text-sm md:text-base">Kantor Reytrans — Kab. Cirebon</h4>
+                  <p className="text-sm text-white/90 leading-relaxed">
+                    Jl. Nursefi Rt007 Rw002 Blok. Warung Lepet Ds. Cikeduk Kec. Depok Kab. Cirebon.<br className="hidden md:block" />
+                    Sopir kami konfirmasi H-1 keberangkatan via WhatsApp.
+                  </p>
                 </div>
               </div>
             </div>
 
-            <div className="lg:col-span-6 relative h-[400px] lg:h-auto lg:min-h-[100%] bg-surface-container rounded-3xl overflow-hidden border border-outline-variant/30">
-              <div className="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-multiply flex items-center justify-center">
-                 <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuALz_oVvhfiCAcj3gWKrdKWIyqLPep8tWibKTggNAeV3NLP8RlIW9oQtEIXKe6cfVuG0u_5ocM9E_tSYWBXLhpFDwdaDJFiuV06q5og2T-8L4EwTZDffoo6fZn_su9W89f9cVzpxBWBcj8gMr3uu7Xfino2o9zz6EEuuHqjj0oNLEePsD-fq0ah4VBP0qnUYpNJskOBpe_vN1p65JztNXJ1fY_ahq1LCntCeImstd6_kMqIWUBjDyS_" alt="Map Background" className="object-cover w-full h-full" />
-              </div>
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none p-4">
-                <div className="bg-white/90 backdrop-blur p-6 rounded-2xl shadow-xl border border-white/50 space-y-2 max-w-xs text-center md:text-left">
-                  <div className="flex items-center justify-center md:justify-start gap-2 font-bold text-primary">
-                    <span className="material-symbols-outlined">location_on</span> Hub Utama
-                  </div>
-                  <p className="text-sm text-on-surface-variant font-medium">Layanan kami menjangkau area Jabodetabek dan Ciayumajakuning setiap hari.</p>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -713,18 +803,19 @@ export default function Page() {
           <span className="text-primary font-bold tracking-widest text-caption uppercase">CARA BOOKING</span>
           <h2 className="font-h2 text-h2 mt-4">Mudah dalam 3 Langkah.</h2>
         </div>
-        <div className="max-w-container-max mx-auto px-margin-desktop grid grid-cols-1 md:grid-cols-3 gap-12">
+        <div className="max-w-container-max mx-auto px-margin-desktop grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16">
           {[
             { step: 1, icon: 'directions_bus', title: 'Pilih Armada', desc: 'Tentukan armada dan tipe layanan yang Anda inginkan sesuai kebutuhan.' },
             { step: 2, icon: 'assignment', title: 'Isi Booking', desc: 'Lengkapi data penjemputan, tujuan, dan jam keberangkatan dengan valid.' },
             { step: 3, icon: 'check_circle', title: 'Konfirmasi', desc: 'Selesaikan konfirmasi dengan CS via WhatsApp secara instan (5 Menit).' }
           ].map(s => (
-            <div key={s.step} className="relative group">
-              <div className="bg-white p-10 rounded-[40px] border border-outline-variant/30 shadow-sm lift-on-hover relative z-10 h-full">
-                <div className="bg-primary-container text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl mb-8">{s.step}</div>
-                <span className="material-symbols-outlined text-primary text-5xl mb-6 block">{s.icon}</span>
-                <h4 className="font-h3 text-xl mb-4">{s.title}</h4>
-                <p className="text-on-surface-variant">{s.desc}</p>
+            <div key={s.step} className="flex flex-row items-start gap-4 lg:gap-6 group hover:-translate-y-1 transition-transform duration-300">
+              <div className="text-6xl lg:text-[80px] font-extrabold italic text-primary/20 group-hover:text-primary transition-colors duration-300 select-none leading-none -mt-1 lg:-mt-3">
+                0{s.step}
+              </div>
+              <div className="pt-1 lg:pt-0">
+                <h4 className="font-h3 text-xl mb-2 text-on-surface">{s.title}</h4>
+                <p className="text-on-surface-variant leading-relaxed text-sm">{s.desc}</p>
               </div>
             </div>
           ))}
@@ -792,7 +883,7 @@ export default function Page() {
             <div className="bg-white p-8 rounded-[32px] border border-outline-variant/30 flex flex-col shadow-sm lift-on-hover transition-all duration-300">
               <div className="flex gap-1 mb-6">
                 {[...Array(5)].map((_, i) => (
-                  <span key={i} className="material-symbols-outlined text-yellow-400" style={{"fontVariationSettings":"'FILL' 1"}}>star</span>
+                  <span key={i} className="material-symbols-outlined text-yellow-400" style={{ "fontVariationSettings": "'FILL' 1" }}>star</span>
                 ))}
               </div>
               <blockquote className="text-on-surface font-body-md mb-8 flex-grow">
@@ -811,7 +902,7 @@ export default function Page() {
             <div className="bg-white p-8 rounded-[32px] border border-outline-variant/30 flex flex-col shadow-sm lift-on-hover transition-all duration-300">
               <div className="flex gap-1 mb-6">
                 {[...Array(5)].map((_, i) => (
-                  <span key={i} className="material-symbols-outlined text-yellow-400" style={{"fontVariationSettings":"'FILL' 1"}}>star</span>
+                  <span key={i} className="material-symbols-outlined text-yellow-400" style={{ "fontVariationSettings": "'FILL' 1" }}>star</span>
                 ))}
               </div>
               <blockquote className="text-on-surface font-body-md mb-8 flex-grow">
@@ -830,7 +921,7 @@ export default function Page() {
             <div className="bg-white p-8 rounded-[32px] border border-outline-variant/30 flex flex-col shadow-sm lift-on-hover transition-all duration-300">
               <div className="flex gap-1 mb-6">
                 {[...Array(5)].map((_, i) => (
-                  <span key={i} className="material-symbols-outlined text-yellow-400" style={{"fontVariationSettings":"'FILL' 1"}}>star</span>
+                  <span key={i} className="material-symbols-outlined text-yellow-400" style={{ "fontVariationSettings": "'FILL' 1" }}>star</span>
                 ))}
               </div>
               <blockquote className="text-on-surface font-body-md mb-8 flex-grow">
@@ -861,30 +952,32 @@ export default function Page() {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <label className="text-label-sm font-bold block ml-1">Nama Lengkap *</label>
+                    <label className="text-label-sm font-bold block ml-1">Nama Lengkap <span className="text-red-500">*</span></label>
                     <input className="w-full px-6 py-4 rounded-[14px] border border-outline-variant/50 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all bg-white" placeholder="Contoh: Budi Santoso" required type="text" value={form.name} onChange={setF('name')} />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-label-sm font-bold block ml-1">Nomor WhatsApp *</label>
+                    <label className="text-label-sm font-bold block ml-1">Nomor WhatsApp <span className="text-red-500">*</span></label>
                     <input className="w-full px-6 py-4 rounded-[14px] border border-outline-variant/50 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all bg-white" placeholder="08xxxxxxxxxx" required type="tel" value={form.phone} onChange={setF('phone')} />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <label className="text-label-sm font-bold block ml-1">Titik Penjemputan *</label>
+                    <label className="text-label-sm font-bold block ml-1">Titik Penjemputan <span className="text-red-500">*</span></label>
                     <input className="w-full px-6 py-4 rounded-[14px] border border-outline-variant/50 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all bg-white" placeholder="Stasiun Cirebon / Hotel XYZ" required type="text" value={form.pickup} onChange={setF('pickup')} />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-label-sm font-bold block ml-1">Tujuan *</label>
+                    <label className="text-label-sm font-bold block ml-1">Tujuan <span className="text-red-500">*</span></label>
                     <input className="w-full px-6 py-4 rounded-[14px] border border-outline-variant/50 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all bg-white" placeholder="Bandara Soetta / Jakarta" required type="text" value={form.destination} onChange={setF('destination')} />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <label className="text-label-sm font-bold block ml-1">Tanggal Perjalanan *</label>
-                    <input className="w-full px-6 py-4 rounded-[14px] border border-outline-variant/50 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all bg-white" required type="date" value={form.date} onChange={setF('date')} />
+                    <label className="text-label-sm font-bold block ml-1">Tanggal Perjalanan <span className="text-red-500">*</span></label>
+                    <div className="relative">
+                      <input className="w-full px-6 py-4 rounded-[14px] border border-outline-variant/50 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all bg-white" required type="date" value={form.date} onChange={setF('date')} />
+                    </div>
                   </div>
                   <div className="space-y-2">
                     <label className="text-label-sm font-bold block ml-1">Jumlah Penumpang</label>
@@ -894,19 +987,28 @@ export default function Page() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <label className="text-label-sm font-bold block ml-1">Tipe Layanan *</label>
-                    <select className="w-full px-6 py-4 rounded-[14px] border border-outline-variant/50 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all bg-white" value={form.serviceType} onChange={setF('serviceType')}>
-                      <option value="Travel Reguler">Travel Reguler (Per Kursi)</option>
-                      <option value="Charter Privat">Charter Privat</option>
-                    </select>
+                    <label className="text-label-sm font-bold block ml-1">Tipe Layanan <span className="text-red-500">*</span></label>
+                    <CustomSelect
+                      value={form.serviceType}
+                      onChange={(val) => setForm((prev) => ({ ...prev, serviceType: val }))}
+                      options={[
+                        { value: 'Travel Reguler', label: 'Travel Reguler (Per Kursi)' },
+                        { value: 'Charter Privat', label: 'Charter Privat' }
+                      ]}
+                    />
                   </div>
                   <div className="space-y-2">
                     <label className="text-label-sm font-bold block ml-1">Pilih Paket Armada (Opsional)</label>
-                    <select className="w-full px-6 py-4 rounded-[14px] border border-outline-variant/50 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all bg-white" value={form.packageId} onChange={setF('packageId')}>
-                      <option value="">-- Pilih Armada --</option>
-                      {packages.map(p => <option key={p.id} value={p.id}>{p.title}</option>)}
-                      {cars.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-                    </select>
+                    <CustomSelect
+                      value={form.packageId}
+                      onChange={(val) => setForm((prev) => ({ ...prev, packageId: val }))}
+                      placeholder="-- Pilih Armada --"
+                      options={[
+                        { value: "", label: "-- Pilih Armada (Scroll jika perlu) --" },
+                        ...packages.map(p => ({ value: p.id, label: p.title })),
+                        ...cars.map(c => ({ value: c.id, label: c.name }))
+                      ]}
+                    />
                   </div>
                 </div>
 
@@ -961,11 +1063,10 @@ export default function Page() {
                   <button
                     key={cat}
                     onClick={() => { setFaqFilter(cat); setFaqActive(null); }}
-                    className={`px-5 py-2.5 rounded-full font-bold text-sm transition-all border ${
-                      isActive
-                        ? 'bg-primary border-primary text-white shadow-md'
-                        : 'bg-white border-outline-variant/50 text-outline hover:border-primary hover:text-primary cursor-pointer'
-                    }`}
+                    className={`px-5 py-2.5 rounded-full font-bold text-sm transition-all border ${isActive
+                      ? 'bg-primary border-primary text-white shadow-md'
+                      : 'bg-white border-outline-variant/50 text-outline hover:border-primary hover:text-primary cursor-pointer'
+                      }`}
                   >
                     {cat}
                   </button>
@@ -981,25 +1082,22 @@ export default function Page() {
               return (
                 <div
                   key={faq.id}
-                  className={`bg-white border rounded-2xl overflow-hidden transition-all duration-300 ${
-                    isOpen ? 'border-primary ring-3 ring-primary/5 shadow-md' : 'border-outline-variant/30 hover:border-primary/50'
-                  }`}
+                  className={`bg-white border rounded-2xl overflow-hidden transition-all duration-300 ${isOpen ? 'border-primary ring-3 ring-primary/5 shadow-md' : 'border-outline-variant/30 hover:border-primary/50'
+                    }`}
                 >
                   <button
                     className="w-full flex items-center justify-between p-6 text-left font-bold text-[17px] text-on-surface hover:text-primary transition-colors gap-4 cursor-pointer"
                     onClick={() => setFaqActive(isOpen ? null : i)}
                   >
                     <span>{faq.question}</span>
-                    <span className={`material-symbols-outlined text-outline transform transition-transform duration-300 ${
-                      isOpen ? 'rotate-180 text-primary' : ''
-                    }`}>
+                    <span className={`material-symbols-outlined text-outline transform transition-transform duration-300 ${isOpen ? 'rotate-180 text-primary' : ''
+                      }`}>
                       expand_more
                     </span>
                   </button>
                   <div
-                    className={`transition-all duration-300 ease-in-out overflow-hidden ${
-                      isOpen ? 'max-h-[300px] border-t border-outline-variant/10' : 'max-h-0'
-                    }`}
+                    className={`transition-all duration-300 ease-in-out overflow-hidden ${isOpen ? 'max-h-[300px] border-t border-outline-variant/10' : 'max-h-0'
+                      }`}
                   >
                     <div className="p-6 text-on-surface-variant font-body-md leading-relaxed bg-surface/30">
                       {faq.answer}
@@ -1031,7 +1129,7 @@ export default function Page() {
             </div>
           </div>
           <div className="flex-1 w-full lg:w-auto relative">
-            <img alt="Collage of travel vans" className="w-full object-contain transform lg:scale-125 z-10 drop-shadow-2xl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLLUU1P20buihB8mE_DhoxvgA6f-iUMRq5ZdAh0M7TbZJLoiN_A4L_HKf5C-FrB1dCTiGsy9YCJZkOzfX9r0EGM6ynGJpQIaEF1R9Nylr0S5XzLabq_7XAD1ra9F9tyUNh5-8hnwEgWcoOWXydr6xps535_4GtQge4BjAPx1DY0patwYcv-D1wR8xVfUBBNClP1RiA28drqTu3HlMwGxRldJAYpBvOMwnGYpREM-W3HRxE-Urch3TU"/>
+            <img alt="Collage of travel vans" className="w-full object-contain rounded-3xl transform lg:scale-125 z-10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLLUU1P20buihB8mE_DhoxvgA6f-iUMRq5ZdAh0M7TbZJLoiN_A4L_HKf5C-FrB1dCTiGsy9YCJZkOzfX9r0EGM6ynGJpQIaEF1R9Nylr0S5XzLabq_7XAD1ra9F9tyUNh5-8hnwEgWcoOWXydr6xps535_4GtQge4BjAPx1DY0patwYcv-D1wR8xVfUBBNClP1RiA28drqTu3HlMwGxRldJAYpBvOMwnGYpREM-W3HRxE-Urch3TU" />
           </div>
         </div>
       </section>
@@ -1053,12 +1151,29 @@ function Footer({ onNavClick }: { onNavClick: (id: string) => void }) {
           <p className="text-on-surface-variant font-body-md max-w-sm">
             Penyedia layanan transportasi terpercaya untuk rute Jabodetabek, Cirebon, Kuningan, Majalengka, dan sekitarnya.
           </p>
+          <div className="flex items-center gap-4 pt-4">
+            <a href="#" className="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface hover:bg-primary hover:text-white transition-colors" aria-label="Instagram">
+              <svg fill="currentColor" viewBox="0 0 24 24" className="w-5 h-5"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+            </a>
+            <a href="#" className="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface hover:bg-primary hover:text-white transition-colors" aria-label="TikTok">
+              <svg fill="currentColor" viewBox="0 0 24 24" className="w-4 h-4"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+            </a>
+            <a href="#" className="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface hover:bg-primary hover:text-white transition-colors" aria-label="Facebook">
+              <svg fill="currentColor" viewBox="0 0 24 24" className="w-5 h-5"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/></svg>
+            </a>
+            <a href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '6285702710400'}`} target="_blank" className="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface hover:bg-[#25D366] hover:text-white transition-colors" aria-label="WhatsApp">
+              <svg fill="currentColor" viewBox="0 0 24 24" className="w-6 h-6"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+            </a>
+          </div>
         </div>
         <div>
           <h4 className="font-bold text-on-surface mb-6">Menu</h4>
           <ul className="space-y-4">
-            <li><button onClick={() => onNavClick('services')} className="text-on-surface-variant hover:text-primary">Layanan</button></li>
-            <li><button onClick={() => onNavClick('faq')} className="text-on-surface-variant hover:text-primary">FAQ</button></li>
+            <li><a href="#" className="text-on-surface-variant hover:text-primary transition-colors">Beranda</a></li>
+            <li><button onClick={() => onNavClick('services')} className="text-on-surface-variant hover:text-primary transition-colors">Layanan</button></li>
+            <li><button onClick={() => onNavClick('route')} className="text-on-surface-variant hover:text-primary transition-colors">Rute & Jadwal</button></li>
+            <li><button onClick={() => onNavClick('booking')} className="text-on-surface-variant hover:text-primary transition-colors">Booking</button></li>
+            <li><button onClick={() => onNavClick('faq')} className="text-on-surface-variant hover:text-primary transition-colors">FAQ</button></li>
           </ul>
         </div>
         <div>

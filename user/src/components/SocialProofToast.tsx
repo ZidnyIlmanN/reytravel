@@ -43,7 +43,7 @@ export default function SocialProofToast() {
   return (
     <div className={`${styles.toast} ${leaving ? styles.leaving : ''}`} role="status" aria-live="polite">
       <div className={styles.avatar}>
-        {b.name[0]}
+        <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>person</span>
       </div>
       <div className={styles.body}>
         <p className={styles.name}>
@@ -51,24 +51,15 @@ export default function SocialProofToast() {
           <span className={styles.city}> dari {b.city}</span>
         </p>
         <p className={styles.action}>
-          <svg viewBox="0 0 24 24" fill="none" width="11" height="11" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
-            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
-            <line x1="3" y1="6" x2="21" y2="6"/>
-            <path d="M16 10a4 4 0 0 1-8 0"/>
-          </svg>
           baru booking <strong>{b.pkg}</strong>
         </p>
         <p className={styles.ago}>
-          <svg viewBox="0 0 24 24" fill="none" width="10" height="10" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-          </svg>
+          <span className="material-symbols-outlined" style={{ fontSize: '12px' }}>schedule</span>
           {b.ago}
         </p>
       </div>
       <button className={styles.close} onClick={() => { setLeaving(true); setTimeout(() => setVisible(false), 400); }} aria-label="Tutup">
-        <svg viewBox="0 0 24 24" fill="none" width="12" height="12" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-        </svg>
+        <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>close</span>
       </button>
     </div>
   );
