@@ -223,7 +223,7 @@ export default function Header({ onNavClick = () => {} }: HeaderProps) {
         </div>
       </div>
     </header>
-    {searchOpen && <SearchModal onClose={() => setSearchOpen(false)} />}
+    {searchOpen && <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} cars={[]} articles={[]} />}
   </>
 );
 }
