@@ -581,7 +581,7 @@ export default function Page() {
               return (
                 <div
                   key={car.id || idx}
-                  className={`bg-white rounded-[16px] flex flex-col shadow-sm border overflow-hidden relative min-w-[300px] sm:min-w-[320px] flex-shrink-0 snap-start lg:min-w-0 lg:flex-shrink lg:snap-align-none ${isTerpopuler ? 'border-primary shadow-[0_4px_20px_rgba(37,99,235,0.08)]' : 'border-outline-variant/30'
+                  className={`bg-white rounded-[16px] flex flex-col shadow-sm border overflow-hidden relative w-[85vw] max-w-[280px] sm:max-w-[320px] sm:w-[320px] shrink-0 snap-center lg:w-auto lg:max-w-none lg:shrink lg:snap-align-none ${isTerpopuler ? 'border-primary shadow-[0_4px_20px_rgba(37,99,235,0.08)]' : 'border-outline-variant/30'
                     }`}
                 >
                   {isTerpopuler && (
